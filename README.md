@@ -1,5 +1,5 @@
 # dominating-spring-boot-3
-Projeto desenvolvimento spring boot 3
+Projeto desenvolvimento spring boot
 
 ## Descrição do projeto
 
