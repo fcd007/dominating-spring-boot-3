@@ -16,9 +16,9 @@ Verifique o ambiente com os seguintes parâmetros:
 
 ## Ferramentas e tecnologias do lado do servidor usadas
 
+- JDK 17 LTS
 - Spring Boot 3 +
 - Maven 3.9.5
-- JDK 17 LTS
 
 Clone o projeto em um local com permissões, abra-o no ntelliJ IDEA e aguarde 
 as dependências serem baixadas, qualquer dúvida só enviar mensagem.
