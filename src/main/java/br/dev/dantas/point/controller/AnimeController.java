@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = {"v1/animes", "v1/animes/"})
+@RequestMapping(path = {"api/v1/animes", "api/v1/animes/"})
 public class AnimeController {
     @GetMapping()
     public List<String> list() {
