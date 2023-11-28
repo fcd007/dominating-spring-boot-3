@@ -16,5 +16,4 @@ public class PointApplication {
 		Arrays.stream(applicationContext.getBeanDefinitionNames())
 				.forEach(System.out::println);
 	}
-
 }
