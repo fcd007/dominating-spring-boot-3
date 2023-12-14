@@ -1,30 +1,33 @@
 package br.dev.dantas.point.domain;
 
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@Builder
+@ToString
 public class Anime {
     private Long id;
     private String name;
+    private LocalDateTime createdAt;
     private static List<Anime> animes = new ArrayList<>();
 
     static {
-        var dragon = new Anime(1L, "Dragon Ball Z" );
-        var yugi = new Anime(2L, "Yugi Oh" );
-        var samurai = new Anime(3L, "Samurai X" );
-        var pokemon = new Anime(4L, "Pokemon" );
-        var xmen = new Anime(5L, "X-men Revolution" );
+        var dragon = Anime.builder().id(1L).name("Dragon Ball Z").createdAt(LocalDateTime.now()).build();
+        var yugioh = Anime.builder().id(2L).name("Yugi Oh").createdAt(LocalDateTime.now()).build();
+        var samurai = Anime.builder().id(3L).name("Samurai X").createdAt(LocalDateTime.now()).build();
+        var pokemon = Anime.builder().id(4L).name("Pokemon").createdAt(LocalDateTime.now()).build();
+        var xmen = Anime.builder().id(5L).name("X-men").createdAt(LocalDateTime.now()).build();
 
-        animes.addAll(List.of(dragon, yugi, samurai, pokemon, xmen));
+        animes.addAll(List.of(dragon, yugioh, samurai, pokemon, xmen));
     }
 
     public static List<Anime> getAnimes() {
