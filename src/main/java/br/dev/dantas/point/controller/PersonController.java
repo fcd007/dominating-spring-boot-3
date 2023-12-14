@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = {"api/v1/customers","api/v1/customers/"})
+@RequestMapping(path = {"api/v1/customers", "api/v1/customers/"})
 public class PersonController {
-    public static final List<String> NAMES =    List.of("Maria", "João", "Lucas", "Leticia", "Gabriela", "Laura");
+    public static final List<String> NAMES = List.of("Maria", "João", "Lucas", "Leticia", "Gabriela", "Laura");
 
     @GetMapping
     public List<String> list() {

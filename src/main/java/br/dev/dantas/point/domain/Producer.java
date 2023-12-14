@@ -1,9 +1,9 @@
 package br.dev.dantas.point.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,8 +12,8 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
+@ToString
 public class Producer {
-
     private Long id;
     private String name;
     private LocalDateTime createdAt;
@@ -26,6 +26,7 @@ public class Producer {
 
         producers.addAll(List.of(mappa, kyoto, madhouse));
     }
+
     public static List<Producer> getProducers() {
         return producers;
     }
