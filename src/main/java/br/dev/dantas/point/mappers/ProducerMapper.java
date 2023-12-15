@@ -1,11 +1,18 @@
 package br.dev.dantas.point.mappers;
 
+import br.dev.dantas.point.domain.Anime;
 import br.dev.dantas.point.domain.Producer;
 import br.dev.dantas.point.request.ProducerPostRequest;
+import br.dev.dantas.point.request.ProducerPutRequest;
+import br.dev.dantas.point.response.ProducerGetResponse;
 import br.dev.dantas.point.response.ProducerPostResponse;
+import br.dev.dantas.point.response.ProducerPutResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Mapper
 public interface ProducerMapper {
@@ -16,5 +23,11 @@ public interface ProducerMapper {
     @Mapping(target = "createdAt", expression = "java(java.time.LocalDateTime.now())")
     Producer toProducer(ProducerPostRequest request);
 
+    @Mapping(source = "createdAt", target = "createdAt")
+    Producer toProducer(ProducerPutRequest request, LocalDateTime createdAt);
+
     ProducerPostResponse toProducerPostResponse(Producer producer);
+    ProducerGetResponse toProducerGetResponse(Producer producer);
+    ProducerPutResponse toProducerPutResponse(Producer producer);
+    List<ProducerGetResponse> toProducerGetResponseList(List<Producer> producers);
 }
