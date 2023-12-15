@@ -4,6 +4,8 @@ import br.dev.dantas.point.domain.Anime;
 import br.dev.dantas.point.domain.Producer;
 import br.dev.dantas.point.mappers.AnimeMapper;
 import br.dev.dantas.point.request.AnimePostRequest;
+import br.dev.dantas.point.request.AnimePutRequest;
+import br.dev.dantas.point.request.ProducerPutRequest;
 import br.dev.dantas.point.response.AnimeGetResponse;
 import br.dev.dantas.point.response.AnimePostResponse;
 import lombok.extern.log4j.Log4j2;
@@ -69,6 +71,24 @@ public class AnimeController{
                 .findFirst()
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not found to be deleted"));
         Anime.getAnimes().remove(animeFound);
+        return ResponseEntity.noContent().build();
+    }
+
+
+    @PutMapping
+    public ResponseEntity<Void> update(@RequestBody AnimePutRequest request) {
+        log.info("Request received to update the anime '{}'", request);
+        var animeToRemove = Anime.getAnimes()
+                .stream()
+                .filter(anime -> anime.getId().equals(request.getId()))
+                .findFirst()
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not found to be update"));
+
+        var animeUpdated = MAPPER.toAnime(request, animeToRemove.getCreatedAt());
+
+        Anime.getAnimes().remove(animeToRemove);
+        Anime.getAnimes().add(animeUpdated);
+
         return ResponseEntity.noContent().build();
     }
 }

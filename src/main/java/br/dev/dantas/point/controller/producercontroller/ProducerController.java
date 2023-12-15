@@ -66,12 +66,17 @@ public class ProducerController {
     @PutMapping
     public ResponseEntity<Void> update(@RequestBody ProducerPutRequest request) {
         log.info("Request received to update the producer '{}'", request);
-        var producerFound = Producer.getProducers()
+        var producerToRemove = Producer.getProducers()
                 .stream()
                 .filter(producer -> producer.getId().equals(request.getId()))
                 .findFirst()
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not found to be deleted"));
-        Producer.getProducers().remove(producerFound);
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not found to be update"));
+
+        var producerUpdated = MAPPER.toProducer(request, producerToRemove.getCreatedAt());
+
+        Producer.getProducers().remove(producerToRemove);
+        Producer.getProducers().add(producerUpdated);
+
         return ResponseEntity.noContent().build();
     }
 }
