@@ -1,4 +1,4 @@
-package br.dev.dantas.point.controller;
+package br.dev.dantas.point.controller.animecontroller;
 
 import br.dev.dantas.point.domain.Anime;
 import br.dev.dantas.point.domain.Producer;
@@ -15,9 +15,9 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = {"api/v1/animes", "api/v1/animes/"})
+@RequestMapping(path = {IAnimeController.V1_PATH_DEFAULT, IAnimeController.V1_PATH_OTHER})
 @Log4j2
-public class AnimeController {
+public class AnimeController{
     private static final AnimeMapper MAPPER = AnimeMapper.INSTANCE;
 
     @GetMapping

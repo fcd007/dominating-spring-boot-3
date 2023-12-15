@@ -1,12 +1,13 @@
-package br.dev.dantas.point.controller;
+package br.dev.dantas.point.controller.personcontroller;
 
+import br.dev.dantas.point.controller.animecontroller.IAnimeController;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = {"api/v1/customers", "api/v1/customers/"})
+@RequestMapping(path = {IPersonController.V1_PATH_DEFAULT, IPersonController.V1_PATH_OTHER})
 public class PersonController {
     public static final List<String> NAMES = List.of("Maria", "João", "Lucas", "Leticia", "Gabriela", "Laura");
 
