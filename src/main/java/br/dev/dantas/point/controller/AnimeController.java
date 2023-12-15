@@ -1,6 +1,7 @@
 package br.dev.dantas.point.controller;
 
 import br.dev.dantas.point.domain.Anime;
+import br.dev.dantas.point.domain.Producer;
 import br.dev.dantas.point.mappers.AnimeMapper;
 import br.dev.dantas.point.request.AnimePostRequest;
 import br.dev.dantas.point.response.AnimeGetResponse;
@@ -9,6 +10,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -41,7 +43,7 @@ public class AnimeController {
                 .stream()
                 .filter(anime -> anime.getId().equals(id))
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not found"));
 
         var response = MAPPER.toAnimeGetResponse(animeFound);
         return ResponseEntity.ok(response);
@@ -56,5 +58,17 @@ public class AnimeController {
         Anime.getAnimes().add(anime);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        log.info("Request received to delete the anime by id'{}'", id);
+        var animeFound = Anime.getAnimes()
+                .stream()
+                .filter(anime -> anime.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not found to be deleted"));
+        Anime.getAnimes().remove(animeFound);
+        return ResponseEntity.noContent().build();
     }
 }

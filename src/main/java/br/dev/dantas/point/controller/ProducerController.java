@@ -52,6 +52,7 @@ public class ProducerController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
+        log.info("Request received to delete the producer by id'{}'", id);
         var producerFound = Producer.getProducers()
                 .stream()
                 .filter(producer -> producer.getId().equals(id))
