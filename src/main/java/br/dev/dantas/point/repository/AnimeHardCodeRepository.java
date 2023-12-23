@@ -1,12 +1,14 @@
 package br.dev.dantas.point.repository;
 
 import br.dev.dantas.point.domain.Anime;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class AnimeHardCodeRepository {
 
     private static List<Anime> ANIMES = new ArrayList<>();

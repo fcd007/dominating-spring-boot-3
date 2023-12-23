@@ -6,6 +6,7 @@ import br.dev.dantas.point.request.AnimePutRequest;
 import br.dev.dantas.point.response.AnimeGetResponse;
 import br.dev.dantas.point.response.AnimePostResponse;
 import br.dev.dantas.point.service.AnimeService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,14 +17,11 @@ import java.util.List;
 @RestController
 @RequestMapping(path = {IAnimeController.V1_PATH_DEFAULT, IAnimeController.V1_PATH_OTHER})
 @Log4j2
-public class AnimeController{
-    private static final AnimeMapper MAPPER = AnimeMapper.INSTANCE;
+@RequiredArgsConstructor
+public class AnimeController {
+    private final AnimeMapper MAPPER;
 
-    private AnimeService animeService;
-
-    public AnimeController() {
-        this.animeService = new AnimeService();
-    }
+    private final AnimeService animeService;
 
     @GetMapping
     public ResponseEntity<List<AnimeGetResponse>> list(@RequestParam(required = false) String name) {
