@@ -1,6 +1,5 @@
 package br.dev.dantas.point.mappers;
 
-import br.dev.dantas.point.domain.Anime;
 import br.dev.dantas.point.domain.Producer;
 import br.dev.dantas.point.request.ProducerPostRequest;
 import br.dev.dantas.point.request.ProducerPutRequest;
@@ -11,7 +10,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
@@ -26,7 +24,10 @@ public interface ProducerMapper {
     Producer toProducer(ProducerPutRequest request);
 
     ProducerPostResponse toProducerPostResponse(Producer producer);
+
     ProducerGetResponse toProducerGetResponse(Producer producer);
+
     ProducerPutResponse toProducerPutResponse(Producer producer);
+
     List<ProducerGetResponse> toProducerGetResponseList(List<Producer> producers);
 }

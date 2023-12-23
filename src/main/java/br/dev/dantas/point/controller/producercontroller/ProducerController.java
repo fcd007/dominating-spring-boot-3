@@ -28,7 +28,7 @@ public class ProducerController {
 
     @GetMapping
     public ResponseEntity<List<ProducerGetResponse>> list(@RequestParam(required = false) String name) {
-        log.info("Request received to list all anime's, param name '{}'", name);
+        log.info("Request received to list all anime's, param name '{}' ", name);
 
         var producers = producerService.listAll(name);
         var producerGetResponses = MAPPER.toProducerGetResponseList(producers);
@@ -36,9 +36,19 @@ public class ProducerController {
         return ResponseEntity.ok(producerGetResponses);
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<ProducerGetResponse> findById(@PathVariable Long id) {
+        log.info("Request received find producer by id '{}' ", id);
+
+        var producer = producerService.findById(id);
+        var animeGetResponse = MAPPER.toProducerGetResponse(producer);
+
+        return ResponseEntity.ok(animeGetResponse);
+    }
+
     @PostMapping
     public ResponseEntity<ProducerPostResponse> save(@RequestBody ProducerPostRequest request) {
-        log.info("Request create produce post method '{}'", request);
+        log.info("Request create produce post method '{}' ", request);
 
         var producer = MAPPER.toProducer(request);
         producer = producerService.save(producer);
@@ -49,7 +59,7 @@ public class ProducerController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        log.info("Request received to delete the producer by id'{}'", id);
+        log.info("Request received to delete the producer by id'{}' ", id);
 
         producerService.delete(id);
 
@@ -58,7 +68,7 @@ public class ProducerController {
 
     @PutMapping
     public ResponseEntity<Void> update(@RequestBody ProducerPutRequest request) {
-        log.info("Request received to update the producer '{}'", request);
+        log.info("Request received to update the producer '{}' ", request);
 
         var producerToUpdate = MAPPER.toProducer(request);
         producerService.update(producerToUpdate);

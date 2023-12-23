@@ -24,18 +24,18 @@ public class ProducerService {
         return producerHardCodeRepository.save(producer);
     }
 
-    public Optional<Producer> findById(Long id) {
-        return producerHardCodeRepository.findById(id);
+    public Producer findById(Long id) {
+        return producerHardCodeRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not found"));
     }
 
     public void delete(Long id) {
-        var producer = findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not found to be deleted"));
+        var producer = findById(id);
         producerHardCodeRepository.delete(producer);
     }
 
     public void update(Producer producerToUpdate) {
-        var producer = findById(producerToUpdate.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not found to be updated"));
-        producerToUpdate.setCreatedAt(producer.getCreatedAt());
+        findById(producerToUpdate.getId());
         producerHardCodeRepository.update(producerToUpdate);
     }
 }
