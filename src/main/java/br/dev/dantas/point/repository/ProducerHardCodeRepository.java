@@ -1,12 +1,14 @@
 package br.dev.dantas.point.repository;
 
 import br.dev.dantas.point.domain.Producer;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class ProducerHardCodeRepository {
 
     private static List<Producer> PRODUCERS = new ArrayList<>();

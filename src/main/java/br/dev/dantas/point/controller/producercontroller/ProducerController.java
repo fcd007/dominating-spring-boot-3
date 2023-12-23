@@ -7,6 +7,7 @@ import br.dev.dantas.point.request.ProducerPutRequest;
 import br.dev.dantas.point.response.ProducerGetResponse;
 import br.dev.dantas.point.response.ProducerPostResponse;
 import br.dev.dantas.point.service.ProducerService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +18,11 @@ import java.util.List;
 @RestController
 @RequestMapping(path = {IProducerController.V1_PATH_DEFAULT, IProducerController.V1_PATH_OTHER})
 @Log4j2
+@RequiredArgsConstructor
 public class ProducerController {
     private static final ProducerMapper MAPPER = ProducerMapper.INSTANCE;
 
-    private ProducerService producerService;
-
-    public ProducerController() {
-        this.producerService = new ProducerService();
-    }
+    private final ProducerService producerService;
 
     @GetMapping
     public ResponseEntity<List<ProducerGetResponse>> list(@RequestParam(required = false) String name) {
