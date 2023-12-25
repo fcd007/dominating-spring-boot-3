@@ -1,6 +1,5 @@
 package br.dev.dantas.point.controller.producercontroller;
 
-
 import br.dev.dantas.point.mappers.ProducerMapper;
 import br.dev.dantas.point.request.ProducerPostRequest;
 import br.dev.dantas.point.request.ProducerPutRequest;
@@ -20,8 +19,6 @@ import java.util.List;
 @Log4j2
 @RequiredArgsConstructor
 public class ProducerController {
-    private static final ProducerMapper MAPPER = ProducerMapper.INSTANCE;
-
     private final ProducerService producerService;
     private final ProducerMapper mapper;
 

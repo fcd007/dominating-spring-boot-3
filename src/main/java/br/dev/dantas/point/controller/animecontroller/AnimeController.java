@@ -20,7 +20,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AnimeController {
     private final AnimeMapper MAPPER;
-
     private final AnimeService animeService;
 
     @GetMapping
