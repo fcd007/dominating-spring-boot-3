@@ -21,7 +21,7 @@ public class AnimeHardCodeRepository {
         ANIMES.addAll(List.of(dragon, yugioh, samurai));
     }
 
-    public static List<Anime> findAll() {
+    public List<Anime> findAll() {
         return ANIMES;
     }
 
