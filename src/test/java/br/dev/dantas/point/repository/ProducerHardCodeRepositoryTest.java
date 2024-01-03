@@ -36,9 +36,16 @@ class ProducerHardCodeRepositoryTest {
     }
 
     @Test
-    @DisplayName("findAll returns a list with all producers")
+    @DisplayName("findAll() returns a list with all producers")
     void findAll_ReturnsAllProducers_WhenSuccessful() {
         var producers = repository.findAll();
-        Assertions.assertThat(producers).hasSize(3);
+        Assertions.assertThat(producers).hasSameElementsAs(producers);
+    }
+
+    @Test
+    @DisplayName("findById() returns an object with given id")
+    void findById_ReturnsAllProducer_WhenSuccessful() {
+        var producerOptional = repository.findById(3L);
+        Assertions.assertThat(producerOptional).isPresent().contains(producers.get(2));
     }
 }
