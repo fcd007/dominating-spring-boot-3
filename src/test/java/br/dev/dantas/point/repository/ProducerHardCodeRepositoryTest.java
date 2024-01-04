@@ -12,6 +12,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
@@ -30,7 +32,7 @@ class ProducerHardCodeRepositoryTest {
         var luca = Producer.builder().id(2L).name("Luca").createdAt(LocalDateTime.now()).build();
         var marvel = Producer.builder().id(3L).name("marvel").createdAt(LocalDateTime.now()).build();
 
-        producers = List.of(universal, luca, marvel);
+        producers = new ArrayList<>(List.of(universal, luca, marvel));
 
         BDDMockito.when(producerData.getProducers()).thenReturn(producers);
     }
@@ -68,5 +70,21 @@ class ProducerHardCodeRepositoryTest {
     void findByName_ReturnsEmptyListOfProducers_WhenNameIsNotNulll() {
         var producers = repository.findByName("Abasd");
         Assertions.assertThat(producers).isNotNull().isEmpty();
+    }
+
+    @Test
+    @DisplayName("save() create a producer")
+    void save_CreateProducer_WhenSuccessFul() {
+        var producerToBeSaved = Producer.builder()
+                .id(6L)
+                .name("Universal")
+                .createdAt(LocalDateTime.now())
+                .build();
+        var producer = repository.save(producerToBeSaved);
+        Assertions.assertThat(producer)
+                .isEqualTo(producerToBeSaved).hasNoNullFieldsOrProperties();
+
+        var producers = repository.findAll();
+        Assertions.assertThat(producers).contains(producerToBeSaved);
     }
 }
