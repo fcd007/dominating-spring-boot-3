@@ -50,9 +50,23 @@ class ProducerHardCodeRepositoryTest {
     }
 
     @Test
-    @DisplayName("findByName() returns an object with given name")
-    void findByName_ReturnsAllProducer_WhenSuccessful() {
-        var producerOptional = repository.findByName("Luca");
-        Assertions.assertThat(producerOptional).isPresent().contains(producers.get(2));
+    @DisplayName("findByName() returns all producers when name is null")
+    void findByName_ReturnsAllProducers_WhenNameIsNulll() {
+        var producers = repository.findByName(null);
+        Assertions.assertThat(producers).hasSameElementsAs(producers);
+    }
+
+    @Test
+    @DisplayName("findByName() returns list witg filtered producers name is not null")
+    void findByName_ReturnsFilteredProducers_WhenNameIsNotNulll() {
+        var producers = repository.findByName("Luca");
+        Assertions.assertThat(producers).hasSize(1).contains(this.producers.get(1));
+    }
+
+    @Test
+    @DisplayName("findByName() returns empty list when no producer is found")
+    void findByName_ReturnsEmptyListOfProducers_WhenNameIsNotNulll() {
+        var producers = repository.findByName("Abasd");
+        Assertions.assertThat(producers).isNotNull().isEmpty();
     }
 }
