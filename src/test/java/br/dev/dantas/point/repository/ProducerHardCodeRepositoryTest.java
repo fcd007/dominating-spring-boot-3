@@ -73,8 +73,8 @@ class ProducerHardCodeRepositoryTest {
     }
 
     @Test
-    @DisplayName("save() create a producer")
-    void save_CreateProducer_WhenSuccessFul() {
+    @DisplayName("save() creates a producer")
+    void save_CreatesProducer_WhenSuccessFul() {
         var producerToBeSaved = Producer.builder()
                 .id(6L)
                 .name("Universal")
@@ -86,5 +86,28 @@ class ProducerHardCodeRepositoryTest {
 
         var producers = repository.findAll();
         Assertions.assertThat(producers).contains(producerToBeSaved);
+    }
+
+    @Test
+    @DisplayName("delete() removes a producer")
+    void delete_RemovesProducer_WhenSuccessFul() {
+        var producerToDelete = this.producers.get(0);
+         repository.delete(producerToDelete);
+
+         Assertions.assertThat(this.producers).doesNotContain(producerToDelete);
+    }
+
+    @Test
+    @DisplayName("update() updates a producer")
+    void update_UpdateProducer_WhenSuccessFul() {
+        var producerToUpdate = this.producers.get(0);
+
+        producerToUpdate.setName("Image");
+
+        repository.update(producerToUpdate);
+        Assertions.assertThat(this.producers).contains(producerToUpdate);
+        this.producers.stream().filter(producer -> producer.getId().equals(producerToUpdate.getId()))
+                .findFirst()
+                .ifPresent(producer -> Assertions.assertThat(producer.getName()).isEqualTo(producerToUpdate.getName()));
     }
 }
