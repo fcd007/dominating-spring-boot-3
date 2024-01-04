@@ -48,4 +48,11 @@ class ProducerHardCodeRepositoryTest {
         var producerOptional = repository.findById(3L);
         Assertions.assertThat(producerOptional).isPresent().contains(producers.get(2));
     }
+
+    @Test
+    @DisplayName("findByName() returns an object with given name")
+    void findByName_ReturnsAllProducer_WhenSuccessful() {
+        var producerOptional = repository.findByName("Luca");
+        Assertions.assertThat(producerOptional).isPresent().contains(producers.get(2));
+    }
 }
