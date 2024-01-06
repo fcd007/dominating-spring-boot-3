@@ -1,6 +1,5 @@
 package br.dev.dantas.point.controller.personcontroller;
 
-import br.dev.dantas.point.controller.animecontroller.IAnimeController;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

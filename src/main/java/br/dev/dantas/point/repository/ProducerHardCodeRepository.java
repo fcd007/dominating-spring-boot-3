@@ -30,10 +30,7 @@ public class ProducerHardCodeRepository {
 
     public List<Producer> findByName(String name) {
         log.info(connection);
-        return name == null ? producerData.getProducers() :
-                producerData.getProducers()
-                        .stream()
-                        .filter(producer -> producer.getName().equalsIgnoreCase(name)).toList();
+        return name == null ? producerData.getProducers() : producerData.getProducers().stream().filter(producer -> producer.getName().equalsIgnoreCase(name)).toList();
     }
 
     public Producer save(Producer producer) {

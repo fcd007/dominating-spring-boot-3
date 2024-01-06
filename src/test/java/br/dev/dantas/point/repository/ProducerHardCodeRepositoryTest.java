@@ -13,7 +13,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
@@ -92,9 +91,9 @@ class ProducerHardCodeRepositoryTest {
     @DisplayName("delete() removes a producer")
     void delete_RemovesProducer_WhenSuccessFul() {
         var producerToDelete = this.producers.get(0);
-         repository.delete(producerToDelete);
+        repository.delete(producerToDelete);
 
-         Assertions.assertThat(this.producers).doesNotContain(producerToDelete);
+        Assertions.assertThat(this.producers).doesNotContain(producerToDelete);
     }
 
     @Test
