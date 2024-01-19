@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,12 +24,12 @@ public class ProducerService {
         return producerHardCodeRepository.save(producer);
     }
 
-    public Producer findById(Long id) {
-        return producerHardCodeRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not found"));
+    public Optional<Producer> findById(Long id) {
+        return producerHardCodeRepository.findById(id);
     }
 
     public void delete(Long id) {
-        var producer = findById(id);
+        var producer = findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not found"));
         producerHardCodeRepository.delete(producer);
     }
 

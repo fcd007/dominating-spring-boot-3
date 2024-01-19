@@ -11,6 +11,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ProducerMapper {
@@ -22,7 +23,7 @@ public interface ProducerMapper {
 
     ProducerPostResponse toProducerPostResponse(Producer producer);
 
-    ProducerGetResponse toProducerGetResponse(Producer producer);
+    ProducerGetResponse toProducerGetResponse(Optional<Producer> producer);
 
     ProducerPutResponse toProducerPutResponse(Producer producer);
 

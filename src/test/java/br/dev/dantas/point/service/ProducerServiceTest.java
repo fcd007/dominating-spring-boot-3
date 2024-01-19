@@ -11,11 +11,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.assertj.core.api.Assertions;
 
 @ExtendWith(MockitoExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -45,7 +45,7 @@ class ProducerServiceTest {
         BDDMockito.when(repository.findByName(null)).thenReturn(this.producers);
 
         var producers = service.listAll(null);
-        org.assertj.core.api.Assertions.assertThat(producers).hasSameElementsAs(producers);
+        Assertions.assertThat(producers).hasSameElementsAs(null);
     }
 
     @Test
@@ -58,18 +58,18 @@ class ProducerServiceTest {
         BDDMockito.when(repository.findByName(name)).thenReturn(producersFound);
 
         var producers = service.listAll(name);
-        org.assertj.core.api.Assertions.assertThat(producers).hasSize(1).contains(producersFound.get(0));
+        Assertions.assertThat(producers).hasSize(1).contains(producersFound.get(0));
     }
 
     @Test
-    @DisplayName("findAll() returns an empty list when no producer is found by name")
+    @DisplayName("findById() returns a optional producer is id exists")
     @Order(3)
-    void findAll_ReturnsEmptyList_WhenNoNameIsFound() {
-        var name = "x";
-        BDDMockito.when(repository.findByName(name)).thenReturn(Collections.emptyList());
+    void  findById_ReturnsOptionalProducer_WhenIsIdExists() {
+        var id = 1L;
+        var producerExpected = this.producers.get(0);
+        BDDMockito.when(repository.findById(id)).thenReturn(Optional.of(producerExpected));
 
-        var producers = service.listAll(name);
-        org.assertj.core.api.Assertions.assertThat(producers).isNotNull().isEmpty();
+        var producerOptional = service.findById(id);
+        Assertions.assertThat(producerOptional).isPresent().contains(producerExpected);
     }
-
 }
