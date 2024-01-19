@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 @ExtendWith(MockitoExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -45,7 +48,7 @@ class ProducerServiceTest {
         BDDMockito.when(repository.findByName(null)).thenReturn(this.producers);
 
         var producers = service.listAll(null);
-        Assertions.assertThat(producers).hasSameElementsAs(null);
+        Assertions.assertThat(producers).hasSameElementsAs(this.producers);
     }
 
     @Test
@@ -62,8 +65,19 @@ class ProducerServiceTest {
     }
 
     @Test
-    @DisplayName("findById() returns a optional producer is id exists")
+    @DisplayName("findBAll() returns an ampty list when no producer is found by name")
     @Order(3)
+    void  findByAll_ReturnsEmptyList_WhenNoNameIsFound() {
+        var name = "x";
+        BDDMockito.when(repository.findByName(name)).thenReturn(Collections.emptyList());
+
+        var producers = service.listAll(name);
+        Assertions.assertThat(producers).isNotNull().isEmpty();
+    }
+
+    @Test
+    @DisplayName("findById() returns a optional producer is id exists")
+    @Order(4)
     void  findById_ReturnsOptionalProducer_WhenIsIdExists() {
         var id = 1L;
         var producerExpected = this.producers.get(0);
@@ -71,5 +85,84 @@ class ProducerServiceTest {
 
         var producerOptional = service.findById(id);
         Assertions.assertThat(producerOptional).isPresent().contains(producerExpected);
+    }
+
+    @Test
+    @DisplayName("findById() returns a optional producer is does id not exists")
+    @Order(5)
+    void  findById_ReturnsEmptyOptionalProducer_WhenIsDoesIdNotExists() {
+        var id = 1L;
+        BDDMockito.when(repository.findById(id)).thenReturn(Optional.empty());
+
+        var producerOptional = service.findById(id);
+        Assertions.assertThat(producerOptional).isEmpty();
+    }
+    @Test
+    @DisplayName("save() creates a producer")
+    @Order(6)
+    void  save_CreateProducer_WhenSuccessful() {
+        var producerToBeSaved = Producer.builder()
+                .id(6L)
+                .name("Universal")
+                .createdAt(LocalDateTime.now())
+                .build();
+        BDDMockito.when(repository.save(producerToBeSaved)).thenReturn(producerToBeSaved);
+
+        var producer = service.save(producerToBeSaved);
+
+        Assertions.assertThat(producer).isEqualTo(producerToBeSaved).hasNoNullFieldsOrProperties();
+    }
+    @Test
+    @DisplayName("delete() removes a producer")
+    @Order(7)
+    void delete_RemovesProducer_WhenSuccessFul() {
+        var id = 1L;
+        var producerToDelete = this.producers.get(0);
+        BDDMockito.when(repository.findById(id)).thenReturn(Optional.of(producerToDelete));
+        BDDMockito.doNothing().when(repository).delete(producerToDelete);
+
+        Assertions.assertThatNoException().isThrownBy(() -> service.delete(id));
+    }
+
+    @Test
+    @DisplayName("delete() removes a throw ResponseStatusException not found")
+    @Order(8)
+    void delete_ThrowResponseStatusException_WhenNoProducerIsFound() {
+        var id = 1L;
+        BDDMockito.when(repository.findById(id)).thenReturn(Optional.empty());
+
+        Assertions.assertThatException()
+                .isThrownBy(() -> service.delete(id))
+                .isInstanceOf(ResponseStatusException.class);
+    }
+
+    @Test
+    @DisplayName("update() updates a producer")
+    @Order(9)
+    void update_UpdateProducer_WhenSuccessFul() {
+        var id = 1L;
+        var producerToUpdate = this.producers.get(0);
+        producerToUpdate.setName("Image");
+
+        BDDMockito.when(repository.findById(id)).thenReturn(Optional.of(producerToUpdate));
+        BDDMockito.doNothing().when(repository).update(producerToUpdate);
+
+        service.update(producerToUpdate);
+
+        Assertions.assertThatNoException().isThrownBy(() -> service.update(producerToUpdate));
+    }
+    @Test
+    @DisplayName("update() updates a throw ResponseStatusException not found")
+    @Order(10)
+    void update_ThrowResponseStatusException_WhenNoProducerIsFound() {
+        var id = 1L;
+        var producerToUpdate = this.producers.get(0);
+        producerToUpdate.setName("Kialo");
+
+        BDDMockito.when(repository.findById(id)).thenReturn(Optional.empty());
+
+        Assertions.assertThatException()
+                .isThrownBy(() -> service.update(producerToUpdate))
+                .isInstanceOf(ResponseStatusException.class);
     }
 }
