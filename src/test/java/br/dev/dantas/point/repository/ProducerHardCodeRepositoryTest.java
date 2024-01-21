@@ -74,14 +74,9 @@ class ProducerHardCodeRepositoryTest {
     @Test
     @DisplayName("save() creates a producer")
     void save_CreatesProducer_WhenSuccessFul() {
-        var producerToBeSaved = Producer.builder()
-                .id(6L)
-                .name("Universal")
-                .createdAt(LocalDateTime.now())
-                .build();
+        var producerToBeSaved = Producer.builder().id(6L).name("Universal").createdAt(LocalDateTime.now()).build();
         var producer = repository.save(producerToBeSaved);
-        Assertions.assertThat(producer)
-                .isEqualTo(producerToBeSaved).hasNoNullFieldsOrProperties();
+        Assertions.assertThat(producer).isEqualTo(producerToBeSaved).hasNoNullFieldsOrProperties();
 
         var producers = repository.findAll();
         Assertions.assertThat(producers).contains(producerToBeSaved);
@@ -105,8 +100,6 @@ class ProducerHardCodeRepositoryTest {
 
         repository.update(producerToUpdate);
         Assertions.assertThat(this.producers).contains(producerToUpdate);
-        this.producers.stream().filter(producer -> producer.getId().equals(producerToUpdate.getId()))
-                .findFirst()
-                .ifPresent(producer -> Assertions.assertThat(producer.getName()).isEqualTo(producerToUpdate.getName()));
+        this.producers.stream().filter(producer -> producer.getId().equals(producerToUpdate.getId())).findFirst().ifPresent(producer -> Assertions.assertThat(producer.getName()).isEqualTo(producerToUpdate.getName()));
     }
 }

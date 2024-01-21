@@ -2,23 +2,20 @@ package br.dev.dantas.point.service;
 
 import br.dev.dantas.point.domain.Producer;
 import br.dev.dantas.point.repository.ProducerHardCodeRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-
-import org.assertj.core.api.Assertions;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 @ExtendWith(MockitoExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -67,7 +64,7 @@ class ProducerServiceTest {
     @Test
     @DisplayName("findBAll() returns an ampty list when no producer is found by name")
     @Order(3)
-    void  findByAll_ReturnsEmptyList_WhenNoNameIsFound() {
+    void findByAll_ReturnsEmptyList_WhenNoNameIsFound() {
         var name = "x";
         BDDMockito.when(repository.findByName(name)).thenReturn(Collections.emptyList());
 
@@ -78,7 +75,7 @@ class ProducerServiceTest {
     @Test
     @DisplayName("findById() returns a optional producer is id exists")
     @Order(4)
-    void  findById_ReturnsOptionalProducer_WhenIsIdExists() {
+    void findById_ReturnsOptionalProducer_WhenIsIdExists() {
         var id = 1L;
         var producerExpected = this.producers.get(0);
         BDDMockito.when(repository.findById(id)).thenReturn(Optional.of(producerExpected));
@@ -90,17 +87,18 @@ class ProducerServiceTest {
     @Test
     @DisplayName("findById() returns a optional producer is does id not exists")
     @Order(5)
-    void  findById_ReturnsEmptyOptionalProducer_WhenIsDoesIdNotExists() {
+    void findById_ReturnsEmptyOptionalProducer_WhenIsDoesIdNotExists() {
         var id = 1L;
         BDDMockito.when(repository.findById(id)).thenReturn(Optional.empty());
 
         var producerOptional = service.findById(id);
         Assertions.assertThat(producerOptional).isEmpty();
     }
+
     @Test
     @DisplayName("save() creates a producer")
     @Order(6)
-    void  save_CreateProducer_WhenSuccessful() {
+    void save_CreateProducer_WhenSuccessful() {
         var producerToBeSaved = Producer.builder()
                 .id(6L)
                 .name("Universal")
@@ -112,6 +110,7 @@ class ProducerServiceTest {
 
         Assertions.assertThat(producer).isEqualTo(producerToBeSaved).hasNoNullFieldsOrProperties();
     }
+
     @Test
     @DisplayName("delete() removes a producer")
     @Order(7)
@@ -151,6 +150,7 @@ class ProducerServiceTest {
 
         Assertions.assertThatNoException().isThrownBy(() -> service.update(producerToUpdate));
     }
+
     @Test
     @DisplayName("update() updates a throw ResponseStatusException not found")
     @Order(10)

@@ -74,16 +74,9 @@ class AnimeHardCodeRepositoryTest {
     @Test
     @DisplayName("save() creates a anime")
     void save_CreatesAnime_WhenSuccessFul() {
-        var animeToBeSaved = Anime
-                .builder()
-                .id(4L)
-                .name("Tom e Jerry")
-                .createdAt(LocalDateTime.now())
-                .build();
+        var animeToBeSaved = Anime.builder().id(4L).name("Tom e Jerry").createdAt(LocalDateTime.now()).build();
         var anime = repository.save(animeToBeSaved);
-        Assertions
-                .assertThat(anime)
-                .isEqualTo(animeToBeSaved).hasNoNullFieldsOrProperties();
+        Assertions.assertThat(anime).isEqualTo(animeToBeSaved).hasNoNullFieldsOrProperties();
 
         var aimes = repository.findAll();
         Assertions.assertThat(aimes).contains(animeToBeSaved);
@@ -107,9 +100,6 @@ class AnimeHardCodeRepositoryTest {
 
         repository.update(animeToUpdate);
         Assertions.assertThat(this.animes).contains(animeToUpdate);
-        this.animes.stream()
-                .filter(anime -> anime.getId().equals(animeToUpdate.getId()))
-                .findFirst()
-                .ifPresent(producer -> Assertions.assertThat(producer.getName()).isEqualTo(animeToUpdate.getName()));
+        this.animes.stream().filter(anime -> anime.getId().equals(animeToUpdate.getId())).findFirst().ifPresent(producer -> Assertions.assertThat(producer.getName()).isEqualTo(animeToUpdate.getName()));
     }
 }
