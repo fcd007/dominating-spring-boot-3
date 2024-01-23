@@ -11,6 +11,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface AnimeMapper {
@@ -23,9 +24,9 @@ public interface AnimeMapper {
 
     AnimePostResponse toAnimePostResponse(Anime anime);
 
-    AnimeGetResponse toAnimeGetResponse(Anime anime);
+    AnimeGetResponse toAnimeGetResponse(Optional<Anime> anime);
 
-    AnimePutResponse toProducerPutResponse(Anime anime);
+    AnimePutResponse toAnimePutResponse(Anime anime);
 
     List<AnimeGetResponse> toAnimeGetResponseList(List<Anime> animes);
 }
