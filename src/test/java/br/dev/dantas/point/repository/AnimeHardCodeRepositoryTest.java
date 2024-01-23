@@ -83,12 +83,17 @@ class AnimeHardCodeRepositoryTest {
     }
 
     @Test
-    @DisplayName("delete() removes a anime")
+    @DisplayName("delete() removes a producer")
     void delete_RemovesAnime_WhenSuccessFul() {
         var animeToDelete = this.animes.get(0);
-        repository.delete(animeToDelete);
+        var animeToDelete1 = this.animes.get(1);
+        var animeToDelete2 = this.animes.get(2);
 
-        Assertions.assertThat(this.animes).doesNotContain(animeToDelete);
+        repository.delete(animeToDelete2);
+        repository.delete(animeToDelete);
+        repository.delete(animeToDelete1);
+
+        Assertions.assertThat(this.animes).doesNotContain(animeToDelete, animeToDelete1, animeToDelete2);
     }
 
     @Test
