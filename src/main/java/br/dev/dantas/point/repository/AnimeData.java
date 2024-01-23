@@ -20,5 +20,7 @@ public class AnimeData {
         animes.addAll(List.of(dragon, yugioh, samurai));
     }
 
-    List<Anime> getAnimes() {  return animes; }
+    public List<Anime> getAnimes() {
+        return animes;
+    }
 }
