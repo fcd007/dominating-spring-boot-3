@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,12 +23,12 @@ public class AnimeService {
         return animeHardCodeRepository.save(anime);
     }
 
-    public Optional<Anime> findById(Long id) {
-        return animeHardCodeRepository.findById(id);
+    public Anime findById(Long id) {
+        return animeHardCodeRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not found"));
     }
 
     public void delete(Long id) {
-        var anime = findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not found"));
+        var anime = findById(id);
         animeHardCodeRepository.delete(anime);
     }
 
