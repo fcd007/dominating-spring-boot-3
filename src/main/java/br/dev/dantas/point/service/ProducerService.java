@@ -34,7 +34,7 @@ public class ProducerService {
     }
 
     public void update(Producer producerToUpdate) {
-        findById(producerToUpdate.getId());
+        findById(producerToUpdate.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not found"));
         producerHardCodeRepository.update(producerToUpdate);
     }
 }
