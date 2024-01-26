@@ -23,6 +23,8 @@ public interface ProducerMapper {
 
     ProducerPostResponse toProducerPostResponse(Producer producer);
 
+    ProducerGetResponse toProducerGetResponse(Producer producer);
+
     ProducerGetResponse toProducerGetResponse(Optional<Producer> producer);
 
     ProducerPutResponse toProducerPutResponse(Producer producer);
