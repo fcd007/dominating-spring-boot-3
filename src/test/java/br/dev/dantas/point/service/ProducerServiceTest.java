@@ -62,7 +62,7 @@ class ProducerServiceTest {
     }
 
     @Test
-    @DisplayName("findBAll() returns an ampty list when no producer is found by name")
+    @DisplayName("findBAll() returns an empty list when no producer is found by name")
     @Order(3)
     void findByAll_ReturnsEmptyList_WhenNoNameIsFound() {
         var name = "x";
