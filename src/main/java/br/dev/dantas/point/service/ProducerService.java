@@ -29,12 +29,12 @@ public class ProducerService {
     }
 
     public void delete(Long id) {
-        var producer = findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not found"));
+        var producer = findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not found to be delete"));
         producerHardCodeRepository.delete(producer);
     }
 
     public void update(Producer producerToUpdate) {
-        findById(producerToUpdate.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not found"));
+        findById(producerToUpdate.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not found to be update"));
         producerHardCodeRepository.update(producerToUpdate);
     }
 }

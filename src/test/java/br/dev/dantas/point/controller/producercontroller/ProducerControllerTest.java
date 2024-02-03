@@ -3,12 +3,10 @@ package br.dev.dantas.point.controller.producercontroller;
 import br.dev.dantas.point.domain.Producer;
 import br.dev.dantas.point.repository.ProducerData;
 import br.dev.dantas.point.repository.ProducerHardCodeRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatcher;
 import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +23,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @WebMvcTest(ProducerController.class)
@@ -48,9 +45,9 @@ class ProducerControllerTest {
 
     @BeforeEach
     void init() {
-        var universal = Producer.builder().id(1L).name("marvel").createdAt(LocalDateTime.now()).build();
+        var universal = Producer.builder().id(1L).name("Marvel").createdAt(LocalDateTime.now()).build();
         var luca = Producer.builder().id(2L).name("Luca").createdAt(LocalDateTime.now()).build();
-        var marvel = Producer.builder().id(3L).name("universal").createdAt(LocalDateTime.now()).build();
+        var marvel = Producer.builder().id(3L).name("Universal").createdAt(LocalDateTime.now()).build();
 
         producers = new ArrayList<>(List.of(universal, luca, marvel));
 
@@ -62,17 +59,17 @@ class ProducerControllerTest {
     @Order(1)
     void findAll_ReturnsAllProducers_WhenSuccessful() throws Exception {
         var response = readResourceFile("get-producer-null-name-200.json");
-            mockMvc.perform(MockMvcRequestBuilders.get(IProducerController.V1_PATH_DEFAULT))
-                    .andDo(MockMvcResultHandlers.print())
-                    .andExpect(MockMvcResultMatchers.status().isOk())
-                    .andExpect(MockMvcResultMatchers.content().json(response));
+        mockMvc.perform(MockMvcRequestBuilders.get(IProducerController.V1_PATH_DEFAULT))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(response));
     }
 
     @Test
     @DisplayName("findAll() returns a list with found producers when name is not null")
     @Order(2)
     void findAll_ReturnsFoundProducers_WhenNamePassedAndFound() throws Exception {
-        var name = "marvel";
+        var name = "Marvel";
 
         var response = readResourceFile("get-producer-marvel-name-200.json");
         mockMvc.perform(MockMvcRequestBuilders.get(IProducerController.V1_PATH_DEFAULT).param("name", name))
@@ -102,7 +99,7 @@ class ProducerControllerTest {
     @Test
     @DisplayName("save() creates a producer")
     @Order(4)
-    void save_CreateProducer_WhenSuccessful()  throws Exception {
+    void save_CreateProducer_WhenSuccessful() throws Exception {
         var request = readResourceFile("post-request-producer-200.json");
         var response = readResourceFile("post-response-producer-201.json");
 
@@ -122,5 +119,36 @@ class ProducerControllerTest {
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.content().json(response));
+    }
+
+    @Test
+    @DisplayName("update() updates a producer")
+    @Order(5)
+    void update_UpdateProducer_WhenSuccessFul() throws Exception {
+        var request = readResourceFile("put-request-producer-204.json");
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put(IProducerController.V1_PATH_DEFAULT)
+                        .content(request)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+    }
+
+    @Test
+    @DisplayName("update() updates a throw ResponseStatusException not found")
+    @Order(6)
+    void update_ThrowResponseStatusException_WhenNoProducerIsFound() throws Exception {
+        var request = readResourceFile("put-request-producer-404.json");
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put(IProducerController.V1_PATH_DEFAULT)
+                        .content(request)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.status().reason("Producer not found to be update"));
     }
 }
