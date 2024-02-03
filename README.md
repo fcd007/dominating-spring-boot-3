@@ -20,5 +20,5 @@ Verifique o ambiente com os seguintes parâmetros:
 - Spring Boot 3 +
 - Maven 3.9.5
 
-Clone o projeto em um local com permissões, abra-o no ntelliJ IDEA e aguarde 
+Clone o projeto em um local com permissões, abra-o no Intellij Idea Community Edition e aguarde 
 as dependências serem baixadas, qualquer dúvida só enviar mensagem.
