@@ -52,6 +52,11 @@ class ProducerControllerTest {
         BDDMockito.when(producerData.getProducers()).thenReturn(producers);
     }
 
+    private String readResourceFile(String fileName) throws Exception {
+        var file = resourceLoader.getResource("classpath:%s".formatted(fileName)).getFile();
+        return new String(Files.readAllBytes(file.toPath()));
+    }
+
     @Test
     @DisplayName("findAll() returns a list with all producers")
     @Order(1)
@@ -87,11 +92,6 @@ class ProducerControllerTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(response));
-    }
-
-    private String readResourceFile(String fileName) throws Exception {
-        var file = resourceLoader.getResource("classpath:%s".formatted(fileName)).getFile();
-        return new String(Files.readAllBytes(file.toPath()));
     }
 
     @Test
@@ -153,7 +153,7 @@ class ProducerControllerTest {
     @Test
     @DisplayName("delete() removes a producer")
     @Order(7)
-    void delete_RemovesProducer_WhenSuccessFul() throws  Exception {
+    void delete_RemovesProducer_WhenSuccessFul() throws Exception {
         var id = 1L;
         mockMvc.perform(MockMvcRequestBuilders.delete(IProducerController.V1_PATH_DEFAULT + "/{id}", id)
                 )

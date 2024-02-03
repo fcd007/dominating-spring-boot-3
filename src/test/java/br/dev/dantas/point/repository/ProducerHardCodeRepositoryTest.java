@@ -4,6 +4,7 @@ import br.dev.dantas.point.domain.Producer;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
@@ -38,6 +39,7 @@ class ProducerHardCodeRepositoryTest {
 
     @Test
     @DisplayName("findAll() returns a list with all producers")
+    @Order(1)
     void findAll_ReturnsAllProducers_WhenSuccessful() {
         var producers = repository.findAll();
         Assertions.assertThat(producers).hasSameElementsAs(producers);
@@ -45,6 +47,7 @@ class ProducerHardCodeRepositoryTest {
 
     @Test
     @DisplayName("findById() returns an object with given id")
+    @Order(2)
     void findById_ReturnsAllProducer_WhenSuccessful() {
         var producerOptional = repository.findById(3L);
         Assertions.assertThat(producerOptional).isPresent().contains(producers.get(2));
@@ -52,6 +55,7 @@ class ProducerHardCodeRepositoryTest {
 
     @Test
     @DisplayName("findByName() returns all producers when name is null")
+    @Order(3)
     void findByName_ReturnsAllProducers_WhenNameIsNulll() {
         var producers = repository.findByName(null);
         Assertions.assertThat(producers).hasSameElementsAs(producers);
@@ -59,6 +63,7 @@ class ProducerHardCodeRepositoryTest {
 
     @Test
     @DisplayName("findByName() returns list witg filtered producers name is not null")
+    @Order(4)
     void findByName_ReturnsFilteredProducers_WhenNameIsNotNulll() {
         var producers = repository.findByName("Luca");
         Assertions.assertThat(producers).hasSize(1).contains(this.producers.get(1));
@@ -66,6 +71,7 @@ class ProducerHardCodeRepositoryTest {
 
     @Test
     @DisplayName("findByName() returns empty list when no producer is found")
+    @Order(5)
     void findByName_ReturnsEmptyListOfProducers_WhenNameIsNotNulll() {
         var producers = repository.findByName("Abasd");
         Assertions.assertThat(producers).isNotNull().isEmpty();
@@ -73,6 +79,7 @@ class ProducerHardCodeRepositoryTest {
 
     @Test
     @DisplayName("save() creates a producer")
+    @Order(6)
     void save_CreatesProducer_WhenSuccessFul() {
         var producerToBeSaved = Producer.builder().id(6L).name("Universal").createdAt(LocalDateTime.now()).build();
         var producer = repository.save(producerToBeSaved);
@@ -84,6 +91,7 @@ class ProducerHardCodeRepositoryTest {
 
     @Test
     @DisplayName("delete() removes a producer")
+    @Order(7)
     void delete_RemovesProducer_WhenSuccessFul() {
         var producerToDelete = this.producers.get(0);
         repository.delete(producerToDelete);
@@ -93,6 +101,7 @@ class ProducerHardCodeRepositoryTest {
 
     @Test
     @DisplayName("update() updates a producer")
+    @Order(8)
     void update_UpdateProducer_WhenSuccessFul() {
         var producerToUpdate = this.producers.get(0);
 
