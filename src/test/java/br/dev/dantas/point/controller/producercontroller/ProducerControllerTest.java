@@ -2,16 +2,21 @@ package br.dev.dantas.point.controller.producercontroller;
 
 import br.dev.dantas.point.domain.Producer;
 import br.dev.dantas.point.repository.ProducerData;
+import br.dev.dantas.point.repository.ProducerHardCodeRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatcher;
+import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -34,6 +39,9 @@ class ProducerControllerTest {
 
     @MockBean
     private ProducerData producerData;
+
+    @SpyBean
+    private ProducerHardCodeRepository repository;
 
     @Autowired
     private ResourceLoader resourceLoader;
@@ -89,5 +97,30 @@ class ProducerControllerTest {
     private String readResourceFile(String fileName) throws Exception {
         var file = resourceLoader.getResource("classpath:%s".formatted(fileName)).getFile();
         return new String(Files.readAllBytes(file.toPath()));
+    }
+
+    @Test
+    @DisplayName("save() creates a producer")
+    @Order(4)
+    void save_CreateProducer_WhenSuccessful()  throws Exception {
+        var request = readResourceFile("post-request-producer-200.json");
+        var response = readResourceFile("post-response-producer-201.json");
+
+        var producerToBeSaved = Producer.builder()
+                .id(9L)
+                .name("A24")
+                .createdAt(LocalDateTime.now())
+                .build();
+        BDDMockito.when(repository.save(ArgumentMatchers.any())).thenReturn(producerToBeSaved);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post(IProducerController.V1_PATH_DEFAULT)
+                        .content(request)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.content().json(response));
     }
 }
