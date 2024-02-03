@@ -32,8 +32,6 @@ class ProducerControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    private List<Producer> producers;
-
     @MockBean
     private ProducerData producerData;
 
@@ -49,7 +47,7 @@ class ProducerControllerTest {
         var luca = Producer.builder().id(2L).name("Luca").createdAt(LocalDateTime.now()).build();
         var marvel = Producer.builder().id(3L).name("Universal").createdAt(LocalDateTime.now()).build();
 
-        producers = new ArrayList<>(List.of(universal, luca, marvel));
+        List<Producer> producers = new ArrayList<>(List.of(universal, luca, marvel));
 
         BDDMockito.when(producerData.getProducers()).thenReturn(producers);
     }
@@ -150,5 +148,28 @@ class ProducerControllerTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andExpect(MockMvcResultMatchers.status().reason("Producer not found to be update"));
+    }
+
+    @Test
+    @DisplayName("delete() removes a producer")
+    @Order(7)
+    void delete_RemovesProducer_WhenSuccessFul() throws  Exception {
+        var id = 1L;
+        mockMvc.perform(MockMvcRequestBuilders.delete(IProducerController.V1_PATH_DEFAULT + "/{id}", id)
+                )
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+    }
+
+    @Test
+    @DisplayName("delete() removes a throw ResponseStatusException not found to be delete")
+    @Order(8)
+    void delete_ThrowResponseStatusException_WhenNoProducerIsFound() throws Exception {
+        var id = 11L;
+        mockMvc.perform(MockMvcRequestBuilders.delete(IProducerController.V1_PATH_DEFAULT + "/{id}", id)
+                )
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.status().reason("Producer not found to be delete"));
     }
 }
