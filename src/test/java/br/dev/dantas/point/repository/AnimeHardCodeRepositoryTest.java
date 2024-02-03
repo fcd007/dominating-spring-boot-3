@@ -4,6 +4,7 @@ import br.dev.dantas.point.domain.Anime;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
@@ -38,6 +39,7 @@ class AnimeHardCodeRepositoryTest {
 
     @Test
     @DisplayName("findAll() returns a list with all animes")
+    @Order(1)
     void findAll_ReturnsAllAnimes_WhenSuccessful() {
         var animes = repository.findAll();
         Assertions.assertThat(animes).hasSameElementsAs(animes);
@@ -45,6 +47,7 @@ class AnimeHardCodeRepositoryTest {
 
     @Test
     @DisplayName("findById() returns an object with given id")
+    @Order(2)
     void findById_ReturnsAllAnimes_WhenSuccessful() {
         var animeOptional = repository.findById(3L);
         Assertions.assertThat(animeOptional).isPresent().contains(animes.get(2));
@@ -52,6 +55,7 @@ class AnimeHardCodeRepositoryTest {
 
     @Test
     @DisplayName("findByName() returns all animes when name is null")
+    @Order(3)
     void findByName_ReturnsAllAnimes_WhenNameIsNulll() {
         var animes = repository.findByName(null);
         Assertions.assertThat(animes).hasSameElementsAs(animes);
@@ -59,6 +63,7 @@ class AnimeHardCodeRepositoryTest {
 
     @Test
     @DisplayName("findByName() returns list witg filtered animes name is not null")
+    @Order(4)
     void findByName_ReturnsFilteredAnimes_WhenNameIsNotNulll() {
         var animes = repository.findByName("Superman");
         Assertions.assertThat(animes).hasSize(1).contains(this.animes.get(2));
@@ -66,6 +71,7 @@ class AnimeHardCodeRepositoryTest {
 
     @Test
     @DisplayName("findByName() returns empty list when no anime is found")
+    @Order(5)
     void findByName_ReturnsEmptyListOfAnimes_WhenNameIsNotNulll() {
         var animes = repository.findByName("Abasd");
         Assertions.assertThat(animes).isNotNull().isEmpty();
@@ -73,6 +79,7 @@ class AnimeHardCodeRepositoryTest {
 
     @Test
     @DisplayName("save() creates a anime")
+    @Order(6)
     void save_CreatesAnime_WhenSuccessFul() {
         var animeToBeSaved = Anime.builder().id(4L).name("Tom e Jerry").createdAt(LocalDateTime.now()).build();
         var anime = repository.save(animeToBeSaved);
@@ -84,6 +91,7 @@ class AnimeHardCodeRepositoryTest {
 
     @Test
     @DisplayName("delete() removes a producer")
+    @Order(7)
     void delete_RemovesAnime_WhenSuccessFul() {
         var animeToDelete = this.animes.get(0);
         var animeToDelete1 = this.animes.get(1);
@@ -98,6 +106,7 @@ class AnimeHardCodeRepositoryTest {
 
     @Test
     @DisplayName("update() updates a anime")
+    @Order(8)
     void update_UpdateAnime_WhenSuccessFul() {
         var animeToUpdate = this.animes.get(0);
 
