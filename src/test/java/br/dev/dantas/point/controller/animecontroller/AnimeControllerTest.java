@@ -91,7 +91,11 @@ class AnimeControllerTest {
         var response = readResourceFile("anime/get-anime-is-found-name-200.json");
         var animeNotFound = "animeTeste";
 
-        mockMvc.perform((MockMvcRequestBuilders.get(IAnimeController.V1_PATH_DEFAULT)).param("name", animeNotFound)).andDo(MockMvcResultHandlers.print()).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.content().json(response));
+        mockMvc.perform((MockMvcRequestBuilders
+                .get(IAnimeController.V1_PATH_DEFAULT)).param("name", animeNotFound))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(response));
     }
 
     @Test
@@ -104,7 +108,13 @@ class AnimeControllerTest {
         var animeToBeSaved = Anime.builder().id(4L).name("Liga da Justiça").createdAt(LocalDateTime.now()).build();
         BDDMockito.when(repository.save(ArgumentMatchers.any())).thenReturn(animeToBeSaved);
 
-        mockMvc.perform(MockMvcRequestBuilders.post(IAnimeController.V1_PATH_DEFAULT).content(request).contentType(MediaType.APPLICATION_JSON)).andDo(MockMvcResultHandlers.print()).andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)).andExpect(MockMvcResultMatchers.status().isCreated()).andExpect(MockMvcResultMatchers.content().json(response));
+        mockMvc.perform(MockMvcRequestBuilders
+                .post(IAnimeController.V1_PATH_DEFAULT)
+                .content(request).contentType(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print()).andExpect(MockMvcResultMatchers.content()
+                        .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.content().json(response));
     }
 
     @Test
