@@ -86,7 +86,7 @@ class AnimeControllerTest {
     }
 
     @Test
-    @DisplayName("findById() returns an object with given id")
+    @DisplayName("findById() returns empty list when no anime is found")
     @Order(3)
     void findById_ReturnsAllAnimes_WhenSuccessful() throws Exception {
         var response = readResourceFile("anime/get-anime-by-id-200.json");
@@ -99,8 +99,19 @@ class AnimeControllerTest {
     }
 
     @Test
+    @DisplayName("findById() returns a throw ResponseStatusException not found")
+    @Order(4)
+    void findById_ThrowResponseStatusException_WhenNoAnimeIsFound() throws Exception {
+        var id = 10L;
+        mockMvc.perform(MockMvcRequestBuilders.get(IAnimeController.V1_PATH_DEFAULT + "/{id}", id))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.status().reason("Anime not found"));
+    }
+
+    @Test
     @DisplayName("findByName() returns all animes when name is null")
-    @Order(3)
+    @Order(5)
     void findByName_ReturnsAllAnimes_WhenNameIsNulll() throws Exception {
         var response = readResourceFile("anime/get-anime-is-found-name-200.json");
         var animeNotFound = "animeTeste";
@@ -114,7 +125,7 @@ class AnimeControllerTest {
 
     @Test
     @DisplayName("save() creates a producer")
-    @Order(4)
+    @Order(6)
     void save_CreateProducer_WhenSuccessful() throws Exception {
         var request = readResourceFile("anime/post-request-anime-200.json");
         var response = readResourceFile("anime/post-response-anime-201.json");
@@ -133,7 +144,7 @@ class AnimeControllerTest {
 
     @Test
     @DisplayName("update() updates a anime")
-    @Order(5)
+    @Order(7)
     void update_UpdateAnime_WhenSuccessFul() throws Exception {
         var request = readResourceFile("anime/put-request-anime-204.json");
 
@@ -146,7 +157,7 @@ class AnimeControllerTest {
 
     @Test
     @DisplayName("update() updates a throw ResponseStatusException not found")
-    @Order(6)
+    @Order(8)
     void update_ThrowResponseStatusException_WhenNoAnimeIsFound() throws Exception {
         var request = readResourceFile("anime/put-request-anime-404.json");
 
@@ -155,13 +166,13 @@ class AnimeControllerTest {
                         .content(request)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status()
-                .isNotFound()).andExpect(MockMvcResultMatchers.status().reason("Anime not found"));
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.status().reason("Anime not found"));
     }
 
     @Test
     @DisplayName("delete() removes a anime")
-    @Order(7)
+    @Order(9)
     void delete_RemovesAnime_WhenSuccessFul() throws Exception {
         var id = 1L;
         mockMvc.perform(MockMvcRequestBuilders.delete(IAnimeController.V1_PATH_DEFAULT + "/{id}", id))
@@ -171,7 +182,7 @@ class AnimeControllerTest {
 
     @Test
     @DisplayName("delete() removes a throw ResponseStatusException not found to be delete")
-    @Order(8)
+    @Order(10)
     void delete_ThrowResponseStatusException_WhenNoProducerIsFound() throws Exception {
         var id = 11L;
         mockMvc.perform(MockMvcRequestBuilders.delete(IAnimeController.V1_PATH_DEFAULT + "/{id}", id))
