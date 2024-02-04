@@ -1,5 +1,6 @@
 package br.dev.dantas.point.controller.animecontroller;
 
+import br.dev.dantas.point.controller.producercontroller.IProducerController;
 import br.dev.dantas.point.domain.Anime;
 import br.dev.dantas.point.repository.AnimeData;
 import br.dev.dantas.point.repository.AnimeHardCodeRepository;
@@ -85,6 +86,19 @@ class AnimeControllerTest {
     }
 
     @Test
+    @DisplayName("findById() returns an object with given id")
+    @Order(3)
+    void findById_ReturnsAllAnimes_WhenSuccessful() throws Exception {
+        var response = readResourceFile("anime/get-anime-by-id-200.json");
+        var id = 1L;
+        mockMvc.perform(MockMvcRequestBuilders.get(IAnimeController.V1_PATH_DEFAULT + "/{id}", id))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(response));
+
+    }
+
+    @Test
     @DisplayName("findByName() returns all animes when name is null")
     @Order(3)
     void findByName_ReturnsAllAnimes_WhenNameIsNulll() throws Exception {
@@ -146,22 +160,23 @@ class AnimeControllerTest {
     }
 
     @Test
-    @DisplayName("delete() removes a producer")
+    @DisplayName("delete() removes a anime")
     @Order(7)
     void delete_RemovesAnime_WhenSuccessFul() throws Exception {
         var id = 1L;
-        mockMvc.perform(MockMvcRequestBuilders.delete(IAnimeController.V1_PATH_DEFAULT + "{id}", id))
+        mockMvc.perform(MockMvcRequestBuilders.delete(IAnimeController.V1_PATH_DEFAULT + "/{id}", id))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
     }
 
     @Test
-    @DisplayName("delete() removes a throw ResponseStatusException not found")
+    @DisplayName("delete() removes a throw ResponseStatusException not found to be delete")
     @Order(8)
-    void delete_ThrowResponseStatusException_WhenNoAnimeIsFound() throws Exception{
+    void delete_ThrowResponseStatusException_WhenNoProducerIsFound() throws Exception {
         var id = 11L;
-        mockMvc.perform(MockMvcRequestBuilders.delete(IAnimeController.V1_PATH_DEFAULT + "{id}", id))
+        mockMvc.perform(MockMvcRequestBuilders.delete(IAnimeController.V1_PATH_DEFAULT + "/{id}", id))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.status().reason("Anime not found"));
     }
 }
