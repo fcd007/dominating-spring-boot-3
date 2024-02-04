@@ -105,9 +105,9 @@ class AnimeHardCodeRepositoryTest {
     }
 
     @Test
-    @DisplayName("update() updates a anime")
+    @DisplayName("update() updates a throw ResponseStatusException not found")
     @Order(8)
-    void update_UpdateAnime_WhenSuccessFul() {
+    void update_ThrowResponseStatusException_WhenNoAnimeIsFound() {
         var animeToUpdate = this.animes.get(0);
 
         animeToUpdate.setName("Homem aranha");

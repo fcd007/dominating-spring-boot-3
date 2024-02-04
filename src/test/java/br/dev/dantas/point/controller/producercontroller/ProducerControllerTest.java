@@ -111,8 +111,7 @@ class ProducerControllerTest {
         mockMvc.perform(MockMvcRequestBuilders
                         .post(IProducerController.V1_PATH_DEFAULT)
                         .content(request)
-                        .contentType(MediaType.APPLICATION_JSON)
-                )
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
@@ -128,8 +127,7 @@ class ProducerControllerTest {
         mockMvc.perform(MockMvcRequestBuilders
                         .put(IProducerController.V1_PATH_DEFAULT)
                         .content(request)
-                        .contentType(MediaType.APPLICATION_JSON)
-                )
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNoContent());
     }
@@ -143,8 +141,7 @@ class ProducerControllerTest {
         mockMvc.perform(MockMvcRequestBuilders
                         .put(IProducerController.V1_PATH_DEFAULT)
                         .content(request)
-                        .contentType(MediaType.APPLICATION_JSON)
-                )
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andExpect(MockMvcResultMatchers.status().reason("Producer not found to be update"));
@@ -155,8 +152,7 @@ class ProducerControllerTest {
     @Order(7)
     void delete_RemovesProducer_WhenSuccessFul() throws Exception {
         var id = 1L;
-        mockMvc.perform(MockMvcRequestBuilders.delete(IProducerController.V1_PATH_DEFAULT + "/{id}", id)
-                )
+        mockMvc.perform(MockMvcRequestBuilders.delete(IProducerController.V1_PATH_DEFAULT + "/{id}", id))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNoContent());
     }
@@ -166,8 +162,7 @@ class ProducerControllerTest {
     @Order(8)
     void delete_ThrowResponseStatusException_WhenNoProducerIsFound() throws Exception {
         var id = 11L;
-        mockMvc.perform(MockMvcRequestBuilders.delete(IProducerController.V1_PATH_DEFAULT + "/{id}", id)
-                )
+        mockMvc.perform(MockMvcRequestBuilders.delete(IProducerController.V1_PATH_DEFAULT + "/{id}", id))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andExpect(MockMvcResultMatchers.status().reason("Producer not found to be delete"));
