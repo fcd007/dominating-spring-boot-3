@@ -61,7 +61,7 @@ class ProducerControllerTest {
     @DisplayName("findAll() returns a list with all producers")
     @Order(1)
     void findAll_ReturnsAllProducers_WhenSuccessful() throws Exception {
-        var response = readResourceFile("get-producer-null-name-200.json");
+        var response = readResourceFile("producer/get-producer-null-name-200.json");
         mockMvc.perform(MockMvcRequestBuilders.get(IProducerController.V1_PATH_DEFAULT))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -74,7 +74,7 @@ class ProducerControllerTest {
     void findAll_ReturnsFoundProducers_WhenNamePassedAndFound() throws Exception {
         var name = "Marvel";
 
-        var response = readResourceFile("get-producer-marvel-name-200.json");
+        var response = readResourceFile("producer/get-producer-marvel-name-200.json");
         mockMvc.perform(MockMvcRequestBuilders.get(IProducerController.V1_PATH_DEFAULT).param("name", name))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -87,7 +87,7 @@ class ProducerControllerTest {
     void findByAll_ReturnsEmptyList_WhenNoNameIsFound() throws Exception {
         var name = "x";
 
-        var response = readResourceFile("get-producer-is-found-name-200.json");
+        var response = readResourceFile("producer/get-producer-is-found-name-200.json");
         mockMvc.perform(MockMvcRequestBuilders.get(IProducerController.V1_PATH_DEFAULT).param("name", name))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -98,8 +98,8 @@ class ProducerControllerTest {
     @DisplayName("save() creates a producer")
     @Order(4)
     void save_CreateProducer_WhenSuccessful() throws Exception {
-        var request = readResourceFile("post-request-producer-200.json");
-        var response = readResourceFile("post-response-producer-201.json");
+        var request = readResourceFile("producer/post-request-producer-200.json");
+        var response = readResourceFile("producer/post-response-producer-201.json");
 
         var producerToBeSaved = Producer.builder()
                 .id(9L)
@@ -122,7 +122,7 @@ class ProducerControllerTest {
     @DisplayName("update() updates a producer")
     @Order(5)
     void update_UpdateProducer_WhenSuccessFul() throws Exception {
-        var request = readResourceFile("put-request-producer-204.json");
+        var request = readResourceFile("producer/put-request-producer-204.json");
 
         mockMvc.perform(MockMvcRequestBuilders
                         .put(IProducerController.V1_PATH_DEFAULT)
@@ -136,7 +136,7 @@ class ProducerControllerTest {
     @DisplayName("update() updates a throw ResponseStatusException not found")
     @Order(6)
     void update_ThrowResponseStatusException_WhenNoProducerIsFound() throws Exception {
-        var request = readResourceFile("put-request-producer-404.json");
+        var request = readResourceFile("producer/put-request-producer-404.json");
 
         mockMvc.perform(MockMvcRequestBuilders
                         .put(IProducerController.V1_PATH_DEFAULT)

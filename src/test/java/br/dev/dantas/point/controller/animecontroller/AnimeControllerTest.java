@@ -61,25 +61,34 @@ class AnimeControllerTest {
     @DisplayName("findAll() returns a list with all Animes")
     @Order(1)
     void findAll_ReturnsAllAnimes_WhenSuccessful() throws Exception {
-        var response = readResourceFile("get-anime-null-name-200.json");
+        var response = readResourceFile("anime/get-anime-null-name-200.json");
 
-        mockMvc.perform((MockMvcRequestBuilders.get(IAnimeController.V1_PATH_DEFAULT))).andDo(MockMvcResultHandlers.print()).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.content().json(response));
+        mockMvc.perform((MockMvcRequestBuilders
+                .get(IAnimeController.V1_PATH_DEFAULT)))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(response));
     }
 
     @Test
     @DisplayName("findAll() returns a list with found animes when name is not null")
     @Order(2)
     void findAll_ReturnsFoundAnimes_WhenNamePassedAndFound() throws Exception {
-        var response = readResourceFile("get-anime-tom-e-jerry-name-200.json");
+        var response = readResourceFile("anime/get-anime-tom-e-jerry-name-200.json");
         var anime = "Tom & Jerry";
-        mockMvc.perform((MockMvcRequestBuilders.get(IAnimeController.V1_PATH_DEFAULT)).param("name", anime)).andDo(MockMvcResultHandlers.print()).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.content().json(response));
+        mockMvc.perform((MockMvcRequestBuilders
+                .get(IAnimeController.V1_PATH_DEFAULT))
+                .param("name", anime))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(response));
     }
 
     @Test
     @DisplayName("findByName() returns all animes when name is null")
     @Order(3)
     void findByName_ReturnsAllAnimes_WhenNameIsNulll() throws Exception {
-        var response = readResourceFile("get-anime-is-found-name-200.json");
+        var response = readResourceFile("anime/get-anime-is-found-name-200.json");
         var animeNotFound = "animeTeste";
 
         mockMvc.perform((MockMvcRequestBuilders.get(IAnimeController.V1_PATH_DEFAULT)).param("name", animeNotFound)).andDo(MockMvcResultHandlers.print()).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.content().json(response));
@@ -89,8 +98,8 @@ class AnimeControllerTest {
     @DisplayName("save() creates a producer")
     @Order(4)
     void save_CreateProducer_WhenSuccessful() throws Exception {
-        var request = readResourceFile("post-request-anime-200.json");
-        var response = readResourceFile("post-response-anime-201.json");
+        var request = readResourceFile("anime/post-request-anime-200.json");
+        var response = readResourceFile("anime/post-response-anime-201.json");
 
         var animeToBeSaved = Anime.builder().id(4L).name("Liga da Justiça").createdAt(LocalDateTime.now()).build();
         BDDMockito.when(repository.save(ArgumentMatchers.any())).thenReturn(animeToBeSaved);
@@ -102,7 +111,7 @@ class AnimeControllerTest {
     @DisplayName("update() updates a anime")
     @Order(5)
     void update_UpdateAnime_WhenSuccessFul() throws Exception {
-        var request = readResourceFile("put-request-anime-204.json");
+        var request = readResourceFile("anime/put-request-anime-204.json");
 
         mockMvc.perform(MockMvcRequestBuilders
                         .put(IAnimeController.V1_PATH_DEFAULT)
@@ -115,7 +124,7 @@ class AnimeControllerTest {
     @DisplayName("update() updates a throw ResponseStatusException not found")
     @Order(6)
     void update_ThrowResponseStatusException_WhenNoAnimeIsFound() throws Exception {
-        var request = readResourceFile("put-request-anime-404.json");
+        var request = readResourceFile("anime/put-request-anime-404.json");
 
         mockMvc.perform(MockMvcRequestBuilders
                         .put(IAnimeController.V1_PATH_DEFAULT)
