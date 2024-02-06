@@ -1,5 +1,6 @@
 package br.dev.dantas.point.controller.animecontroller;
 
+import br.dev.dantas.point.commons.FileUtils;
 import br.dev.dantas.point.controller.producercontroller.IProducerController;
 import br.dev.dantas.point.domain.Anime;
 import br.dev.dantas.point.repository.AnimeData;
@@ -40,7 +41,7 @@ class AnimeControllerTest {
     private AnimeHardCodeRepository repository;
 
     @Autowired
-    private ResourceLoader resourceLoader;
+    private FileUtils fileUtils;
 
     @BeforeEach
     void init() {
@@ -53,16 +54,11 @@ class AnimeControllerTest {
         BDDMockito.when(animeData.getAnimes()).thenReturn(animes);
     }
 
-    private String readResourceFile(String fileName) throws IOException {
-        var file = resourceLoader.getResource("classpath:%s".formatted(fileName)).getFile();
-        return new String(Files.readAllBytes(file.toPath()));
-    }
-
     @Test
     @DisplayName("findAll() returns a list with all Animes")
     @Order(1)
     void findAll_ReturnsAllAnimes_WhenSuccessful() throws Exception {
-        var response = readResourceFile("anime/get-anime-null-name-200.json");
+        var response = fileUtils.readResourceFile("anime/get-anime-null-name-200.json");
 
         mockMvc.perform((MockMvcRequestBuilders
                 .get(IAnimeController.V1_PATH_DEFAULT)))
@@ -75,7 +71,7 @@ class AnimeControllerTest {
     @DisplayName("findAll() returns a list with found animes when name is not null")
     @Order(2)
     void findAll_ReturnsFoundAnimes_WhenNamePassedAndFound() throws Exception {
-        var response = readResourceFile("anime/get-anime-tom-e-jerry-name-200.json");
+        var response = fileUtils.readResourceFile("anime/get-anime-tom-e-jerry-name-200.json");
         var anime = "Tom & Jerry";
         mockMvc.perform((MockMvcRequestBuilders
                 .get(IAnimeController.V1_PATH_DEFAULT))
@@ -89,7 +85,7 @@ class AnimeControllerTest {
     @DisplayName("findById() returns empty list when no anime is found")
     @Order(3)
     void findById_ReturnsAllAnimes_WhenSuccessful() throws Exception {
-        var response = readResourceFile("anime/get-anime-by-id-200.json");
+        var response = fileUtils.readResourceFile("anime/get-anime-by-id-200.json");
         var id = 1L;
         mockMvc.perform(MockMvcRequestBuilders.get(IAnimeController.V1_PATH_DEFAULT + "/{id}", id))
                 .andDo(MockMvcResultHandlers.print())
@@ -113,7 +109,7 @@ class AnimeControllerTest {
     @DisplayName("findByName() returns all animes when name is null")
     @Order(5)
     void findByName_ReturnsAllAnimes_WhenNameIsNulll() throws Exception {
-        var response = readResourceFile("anime/get-anime-is-found-name-200.json");
+        var response = fileUtils.readResourceFile("anime/get-anime-is-found-name-200.json");
         var animeNotFound = "animeTeste";
 
         mockMvc.perform((MockMvcRequestBuilders
@@ -127,8 +123,8 @@ class AnimeControllerTest {
     @DisplayName("save() creates a producer")
     @Order(6)
     void save_CreateProducer_WhenSuccessful() throws Exception {
-        var request = readResourceFile("anime/post-request-anime-200.json");
-        var response = readResourceFile("anime/post-response-anime-201.json");
+        var request = fileUtils.readResourceFile("anime/post-request-anime-200.json");
+        var response = fileUtils.readResourceFile("anime/post-response-anime-201.json");
 
         var animeToBeSaved = Anime.builder().id(4L).name("Liga da Justiça").createdAt(LocalDateTime.now()).build();
         BDDMockito.when(repository.save(ArgumentMatchers.any())).thenReturn(animeToBeSaved);
@@ -146,7 +142,7 @@ class AnimeControllerTest {
     @DisplayName("update() updates a anime")
     @Order(7)
     void update_UpdateAnime_WhenSuccessFul() throws Exception {
-        var request = readResourceFile("anime/put-request-anime-204.json");
+        var request = fileUtils.readResourceFile("anime/put-request-anime-204.json");
 
         mockMvc.perform(MockMvcRequestBuilders
                         .put(IAnimeController.V1_PATH_DEFAULT)
@@ -159,7 +155,7 @@ class AnimeControllerTest {
     @DisplayName("update() updates a throw ResponseStatusException not found")
     @Order(8)
     void update_ThrowResponseStatusException_WhenNoAnimeIsFound() throws Exception {
-        var request = readResourceFile("anime/put-request-anime-404.json");
+        var request = fileUtils.readResourceFile("anime/put-request-anime-404.json");
 
         mockMvc.perform(MockMvcRequestBuilders
                         .put(IAnimeController.V1_PATH_DEFAULT)
