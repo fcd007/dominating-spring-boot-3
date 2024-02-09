@@ -1,5 +1,6 @@
 package br.dev.dantas.point.controller.producercontroller;
 
+import br.dev.dantas.point.commons.ProducerUtils;
 import br.dev.dantas.point.domain.Producer;
 import br.dev.dantas.point.repository.ProducerData;
 import br.dev.dantas.point.repository.ProducerHardCodeRepository;
@@ -41,15 +42,12 @@ class ProducerControllerTest {
     @Autowired
     private ResourceLoader resourceLoader;
 
+    @Autowired
+    private ProducerUtils producerUtils;
+
     @BeforeEach
     void init() {
-        var universal = Producer.builder().id(1L).name("Marvel").createdAt(LocalDateTime.now()).build();
-        var luca = Producer.builder().id(2L).name("Luca").createdAt(LocalDateTime.now()).build();
-        var marvel = Producer.builder().id(3L).name("Universal").createdAt(LocalDateTime.now()).build();
-
-        List<Producer> producers = new ArrayList<>(List.of(universal, luca, marvel));
-
-        BDDMockito.when(producerData.getProducers()).thenReturn(producers);
+        BDDMockito.when(producerData.getProducers()).thenReturn(producerUtils.newProducerList());
     }
 
     private String readResourceFile(String fileName) throws Exception {
@@ -100,12 +98,8 @@ class ProducerControllerTest {
     void save_CreateProducer_WhenSuccessful() throws Exception {
         var request = readResourceFile("producer/post-request-producer-200.json");
         var response = readResourceFile("producer/post-response-producer-201.json");
+        var producerToBeSaved = producerUtils.newProducerToSave();
 
-        var producerToBeSaved = Producer.builder()
-                .id(9L)
-                .name("A24")
-                .createdAt(LocalDateTime.now())
-                .build();
         BDDMockito.when(repository.save(ArgumentMatchers.any())).thenReturn(producerToBeSaved);
 
         mockMvc.perform(MockMvcRequestBuilders
