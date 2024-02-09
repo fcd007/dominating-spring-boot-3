@@ -1,5 +1,6 @@
 package br.dev.dantas.point.repository;
 
+import br.dev.dantas.point.commons.AnimeUtils;
 import br.dev.dantas.point.domain.Anime;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,8 +13,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,13 +25,13 @@ class AnimeHardCodeRepositoryTest {
 
     private List<Anime> animes;
 
+    @InjectMocks
+    private AnimeUtils animeUtils;
+
     @BeforeEach
     void init() {
-        var laterna = Anime.builder().id(1L).name("Lanterna").createdAt(LocalDateTime.now()).build();
-        var superman = Anime.builder().id(2L).name("Superman").createdAt(LocalDateTime.now()).build();
-        var flash = Anime.builder().id(3L).name("Flash").createdAt(LocalDateTime.now()).build();
 
-        animes = new ArrayList<>(List.of(laterna, superman, flash));
+        animes = animeUtils.newAnimeList();
 
         BDDMockito.when(animeData.getAnimes()).thenReturn(animes);
     }
@@ -81,8 +80,10 @@ class AnimeHardCodeRepositoryTest {
     @DisplayName("save() creates a anime")
     @Order(6)
     void save_CreatesAnime_WhenSuccessFul() {
-        var animeToBeSaved = Anime.builder().id(4L).name("Tom e Jerry").createdAt(LocalDateTime.now()).build();
+        var animeToBeSaved = animeUtils.newAnimeToSave();
+
         var anime = repository.save(animeToBeSaved);
+
         Assertions.assertThat(anime).isEqualTo(animeToBeSaved).hasNoNullFieldsOrProperties();
 
         var aimes = repository.findAll();
