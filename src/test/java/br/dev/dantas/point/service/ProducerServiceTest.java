@@ -1,5 +1,6 @@
 package br.dev.dantas.point.service;
 
+import br.dev.dantas.point.commons.ProducerUtils;
 import br.dev.dantas.point.domain.Producer;
 import br.dev.dantas.point.repository.ProducerHardCodeRepository;
 import org.assertj.core.api.Assertions;
@@ -12,7 +13,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -29,13 +29,12 @@ class ProducerServiceTest {
 
     private List<Producer> producers;
 
+    @InjectMocks
+    private ProducerUtils producerUtils;
+
     @BeforeEach
     void init() {
-        var universal = Producer.builder().id(1L).name("universal").createdAt(LocalDateTime.now()).build();
-        var luca = Producer.builder().id(2L).name("Luca").createdAt(LocalDateTime.now()).build();
-        var marvel = Producer.builder().id(3L).name("marvel").createdAt(LocalDateTime.now()).build();
-
-        producers = new ArrayList<>(List.of(universal, luca, marvel));
+        producers = producerUtils.newProducerList();
     }
 
     @Test
@@ -52,7 +51,7 @@ class ProducerServiceTest {
     @DisplayName("findAll() returns a list with found producers when name is not null")
     @Order(2)
     void findAll_ReturnsFoundProducers_WhenNamePassedAndFound() {
-        var name = "universal";
+        var name = "Marvel";
         List<Producer> producersFound = this.producers.stream().filter(producer -> producer.getName().equals(name)).toList();
 
         BDDMockito.when(repository.findByName(name)).thenReturn(producersFound);
@@ -99,11 +98,8 @@ class ProducerServiceTest {
     @DisplayName("save() creates a producer")
     @Order(6)
     void save_CreateProducer_WhenSuccessful() {
-        var producerToBeSaved = Producer.builder()
-                .id(6L)
-                .name("Universal")
-                .createdAt(LocalDateTime.now())
-                .build();
+        var producerToBeSaved = producerUtils.newProducerToSave();
+
         BDDMockito.when(repository.save(producerToBeSaved)).thenReturn(producerToBeSaved);
 
         var producer = service.save(producerToBeSaved);
