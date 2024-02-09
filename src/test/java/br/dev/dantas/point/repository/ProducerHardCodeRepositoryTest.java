@@ -1,5 +1,6 @@
 package br.dev.dantas.point.repository;
 
+import br.dev.dantas.point.commons.ProducerUtils;
 import br.dev.dantas.point.domain.Producer;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,8 +13,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,13 +25,13 @@ class ProducerHardCodeRepositoryTest {
 
     private List<Producer> producers;
 
+    @InjectMocks
+    private ProducerUtils producerUtils;
+
     @BeforeEach
     void init() {
-        var universal = Producer.builder().id(1L).name("universal").createdAt(LocalDateTime.now()).build();
-        var luca = Producer.builder().id(2L).name("Luca").createdAt(LocalDateTime.now()).build();
-        var marvel = Producer.builder().id(3L).name("marvel").createdAt(LocalDateTime.now()).build();
 
-        producers = new ArrayList<>(List.of(universal, luca, marvel));
+        producers = producerUtils.newProducerList();
 
         BDDMockito.when(producerData.getProducers()).thenReturn(producers);
     }
@@ -81,11 +80,16 @@ class ProducerHardCodeRepositoryTest {
     @DisplayName("save() creates a producer")
     @Order(6)
     void save_CreatesProducer_WhenSuccessFul() {
-        var producerToBeSaved = Producer.builder().id(6L).name("Universal").createdAt(LocalDateTime.now()).build();
+        var producerToBeSaved = producerUtils.newProducerToSave();
+
         var producer = repository.save(producerToBeSaved);
-        Assertions.assertThat(producer).isEqualTo(producerToBeSaved).hasNoNullFieldsOrProperties();
+
+        Assertions.assertThat(producer)
+                .isEqualTo(producerToBeSaved)
+                .hasNoNullFieldsOrProperties();
 
         var producers = repository.findAll();
+
         Assertions.assertThat(producers).contains(producerToBeSaved);
     }
 
