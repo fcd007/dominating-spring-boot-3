@@ -1,5 +1,6 @@
 package br.dev.dantas.point.service;
 
+import br.dev.dantas.point.commons.AnimeUtils;
 import br.dev.dantas.point.domain.Anime;
 import br.dev.dantas.point.repository.AnimeHardCodeRepository;
 import org.assertj.core.api.Assertions;
@@ -29,13 +30,13 @@ class AnimeServiceTest {
 
     private List<Anime> animes;
 
+    @InjectMocks
+    private AnimeUtils animeUtils;
+
+
     @BeforeEach
     void init() {
-        var batman = Anime.builder().id(1L).name("Batman").createdAt(LocalDateTime.now()).build();
-        var flash = Anime.builder().id(2L).name("The Flash").createdAt(LocalDateTime.now()).build();
-        var liga = Anime.builder().id(3L).name("Liga da Justiça").createdAt(LocalDateTime.now()).build();
-
-        animes = new ArrayList<>(List.of(batman, flash, liga));
+        animes = animeUtils.newAnimeList();
     }
 
     @Test
@@ -52,7 +53,7 @@ class AnimeServiceTest {
     @DisplayName("findAll() returns a list with found animes when name is not null")
     @Order(2)
     void findAll_ReturnsFoundAnimes_WhenNamePassedAndFound() {
-        var name = "Batman";
+        var name = "Superman";
         List<Anime> animesFound = this.animes.stream().filter(anime -> anime.getName().equals(name)).toList();
 
         BDDMockito.when(repository.findByName(name)).thenReturn(animesFound);
@@ -100,11 +101,8 @@ class AnimeServiceTest {
     @DisplayName("save() creates a anime")
     @Order(6)
     void save_CreateAnime_WhenSuccessful() {
-        var animeToBeSaved = Anime.builder()
-                .id(4L)
-                .name("Mulher Maravilha")
-                .createdAt(LocalDateTime.now())
-                .build();
+        var animeToBeSaved =  animeUtils.newAnimeToSave();
+
         BDDMockito.when(repository.save(animeToBeSaved)).thenReturn(animeToBeSaved);
 
         var anime = service.save(animeToBeSaved);
