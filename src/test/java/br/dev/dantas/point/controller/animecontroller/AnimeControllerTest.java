@@ -1,5 +1,6 @@
 package br.dev.dantas.point.controller.animecontroller;
 
+import br.dev.dantas.point.commons.AnimeUtils;
 import br.dev.dantas.point.commons.FileUtils;
 import br.dev.dantas.point.controller.producercontroller.IProducerController;
 import br.dev.dantas.point.domain.Anime;
@@ -43,13 +44,13 @@ class AnimeControllerTest {
     @Autowired
     private FileUtils fileUtils;
 
+    @Autowired
+    private AnimeUtils animeUtils;
+
     @BeforeEach
     void init() {
-        var tom = Anime.builder().id(1L).name("Tom & Jerry").createdAt(LocalDateTime.now()).build();
-        var pokemon = Anime.builder().id(2L).name("Pokemon").createdAt(LocalDateTime.now()).build();
-        var pink = Anime.builder().id(3L).name("Pink & Cerebro").createdAt(LocalDateTime.now()).build();
 
-        List<Anime> animes = new ArrayList<>(List.of(tom, pokemon, pink));
+        List<Anime> animes = animeUtils.newAnimeList();
 
         BDDMockito.when(animeData.getAnimes()).thenReturn(animes);
     }
@@ -71,8 +72,8 @@ class AnimeControllerTest {
     @DisplayName("findAll() returns a list with found animes when name is not null")
     @Order(2)
     void findAll_ReturnsFoundAnimes_WhenNamePassedAndFound() throws Exception {
-        var response = fileUtils.readResourceFile("anime/get-anime-tom-e-jerry-name-200.json");
-        var anime = "Tom & Jerry";
+        var response = fileUtils.readResourceFile("anime/get-anime-superman-name-200.json");
+        var anime = "Superman";
         mockMvc.perform((MockMvcRequestBuilders
                 .get(IAnimeController.V1_PATH_DEFAULT))
                 .param("name", anime))
@@ -126,7 +127,7 @@ class AnimeControllerTest {
         var request = fileUtils.readResourceFile("anime/post-request-anime-200.json");
         var response = fileUtils.readResourceFile("anime/post-response-anime-201.json");
 
-        var animeToBeSaved = Anime.builder().id(4L).name("Liga da Justiça").createdAt(LocalDateTime.now()).build();
+        var animeToBeSaved = animeUtils.newAnimeToSave();
         BDDMockito.when(repository.save(ArgumentMatchers.any())).thenReturn(animeToBeSaved);
 
         mockMvc.perform(MockMvcRequestBuilders
