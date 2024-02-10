@@ -18,7 +18,7 @@ public class ProducerHardCodeRepository {
     private final ProducerData producerData;
 
 
-    @Qualifier("database")
+    @Qualifier("live")
     private final Connection connection;
 
     public List<Producer> findAll() {

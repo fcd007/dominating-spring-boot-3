@@ -1,5 +1,0 @@
-# D / T / A / P
-database:
-  url: localhost:5432
-  username: postgres
-  password: 1234
