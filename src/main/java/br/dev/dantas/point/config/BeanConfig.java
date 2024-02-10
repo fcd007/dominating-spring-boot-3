@@ -1,5 +1,6 @@
 package br.dev.dantas.point.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import test.outside.Connection;
@@ -7,14 +8,18 @@ import test.outside.Connection;
 @Configuration
 public class BeanConfig {
 
-    @Bean(name = "mysql")
-    public Connection connectionMySql() {
-        return new Connection("localhost:3306", "mysql", "1234");
-    }
+    @Value("${database.url}")
+    private String url;
 
-    @Bean(name = "postgres")
-    public Connection connectionPostgresql() {
-        return new Connection("localhost:5432", "postgres", "1234");
+    @Value("${database.username}")
+    private String username;
+
+    @Value("${database.password}")
+    private String password;
+
+    @Bean(name = "database")
+    public Connection connection() {
+        return new Connection(url, username, password);
     }
 
 }
