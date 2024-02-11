@@ -1,4 +1,9 @@
 spring:
+
+  profiles:
+    active:
+     - live
+     - test
   application:
     name: service
 
