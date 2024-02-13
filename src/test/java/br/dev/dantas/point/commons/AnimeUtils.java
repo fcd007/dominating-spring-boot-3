@@ -1,6 +1,6 @@
 package br.dev.dantas.point.commons;
 
-import br.dev.dantas.point.domain.Anime;
+import br.dev.dantas.point.domain.entity.Anime;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;

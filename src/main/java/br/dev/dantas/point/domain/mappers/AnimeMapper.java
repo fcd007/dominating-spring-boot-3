@@ -1,17 +1,16 @@
-package br.dev.dantas.point.mappers;
+package br.dev.dantas.point.domain.mappers;
 
-import br.dev.dantas.point.domain.Anime;
-import br.dev.dantas.point.request.AnimePostRequest;
-import br.dev.dantas.point.request.AnimePutRequest;
-import br.dev.dantas.point.response.AnimeGetResponse;
-import br.dev.dantas.point.response.AnimePostResponse;
-import br.dev.dantas.point.response.AnimePutResponse;
+import br.dev.dantas.point.domain.entity.Anime;
+import br.dev.dantas.point.controller.animecontroller.request.AnimePostRequest;
+import br.dev.dantas.point.controller.animecontroller.request.AnimePutRequest;
+import br.dev.dantas.point.controller.animecontroller.response.AnimeGetResponse;
+import br.dev.dantas.point.controller.animecontroller.response.AnimePostResponse;
+import br.dev.dantas.point.controller.animecontroller.response.AnimePutResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 
 import java.util.List;
-import java.util.Optional;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface AnimeMapper {

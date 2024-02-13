@@ -1,10 +1,10 @@
 package br.dev.dantas.point.controller.animecontroller;
 
-import br.dev.dantas.point.mappers.AnimeMapper;
-import br.dev.dantas.point.request.AnimePostRequest;
-import br.dev.dantas.point.request.AnimePutRequest;
-import br.dev.dantas.point.response.AnimeGetResponse;
-import br.dev.dantas.point.response.AnimePostResponse;
+import br.dev.dantas.point.domain.mappers.AnimeMapper;
+import br.dev.dantas.point.controller.animecontroller.request.AnimePostRequest;
+import br.dev.dantas.point.controller.animecontroller.request.AnimePutRequest;
+import br.dev.dantas.point.controller.animecontroller.response.AnimeGetResponse;
+import br.dev.dantas.point.controller.animecontroller.response.AnimePostResponse;
 import br.dev.dantas.point.service.AnimeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

@@ -1,15 +1,18 @@
-package br.dev.dantas.point.response;
+package br.dev.dantas.point.controller.animecontroller.request;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Builder
 @ToString
-public class AnimeGetResponse {
+public class AnimePutRequest {
     private Long id;
     private String name;
+    private LocalDateTime createdAt;
 }

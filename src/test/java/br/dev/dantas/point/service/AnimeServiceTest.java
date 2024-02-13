@@ -1,7 +1,7 @@
 package br.dev.dantas.point.service;
 
 import br.dev.dantas.point.commons.AnimeUtils;
-import br.dev.dantas.point.domain.Anime;
+import br.dev.dantas.point.domain.entity.Anime;
 import br.dev.dantas.point.repository.AnimeHardCodeRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
@@ -12,8 +12,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;

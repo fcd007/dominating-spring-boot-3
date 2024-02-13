@@ -1,4 +1,4 @@
-package br.dev.dantas.point.response;
+package br.dev.dantas.point.controller.animecontroller.response;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.ToString;
 @Setter
 @Builder
 @ToString
-public class AnimePostResponse {
+public class AnimePutResponse {
     private Long id;
     private String name;
 }

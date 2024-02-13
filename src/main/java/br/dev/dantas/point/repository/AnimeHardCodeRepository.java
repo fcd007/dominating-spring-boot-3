@@ -1,6 +1,6 @@
 package br.dev.dantas.point.repository;
 
-import br.dev.dantas.point.domain.Anime;
+import br.dev.dantas.point.domain.entity.Anime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
