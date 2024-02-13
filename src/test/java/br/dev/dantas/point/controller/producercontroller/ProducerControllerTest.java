@@ -1,7 +1,6 @@
 package br.dev.dantas.point.controller.producercontroller;
 
 import br.dev.dantas.point.commons.ProducerUtils;
-import br.dev.dantas.point.domain.Producer;
 import br.dev.dantas.point.repository.ProducerData;
 import br.dev.dantas.point.repository.ProducerHardCodeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,9 +21,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.nio.file.Files;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @WebMvcTest(ProducerController.class)
 class ProducerControllerTest {

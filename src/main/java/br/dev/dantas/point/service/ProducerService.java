@@ -1,6 +1,6 @@
 package br.dev.dantas.point.service;
 
-import br.dev.dantas.point.domain.Producer;
+import br.dev.dantas.point.domain.entity.Producer;
 import br.dev.dantas.point.repository.ProducerHardCodeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package br.dev.dantas.point.response;
+package br.dev.dantas.point.controller.producercontroller.response;
 
 import lombok.Builder;
 import lombok.Getter;

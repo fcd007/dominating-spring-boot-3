@@ -1,4 +1,4 @@
-package br.dev.dantas.point.domain;
+package br.dev.dantas.point.domain.entity;
 
 import lombok.*;
 

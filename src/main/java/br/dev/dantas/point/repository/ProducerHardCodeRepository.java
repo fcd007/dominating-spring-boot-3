@@ -1,6 +1,6 @@
 package br.dev.dantas.point.repository;
 
-import br.dev.dantas.point.domain.Producer;
+import br.dev.dantas.point.domain.entity.Producer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Qualifier;

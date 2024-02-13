@@ -1,6 +1,6 @@
 package br.dev.dantas.point.repository;
 
-import br.dev.dantas.point.domain.Producer;
+import br.dev.dantas.point.domain.entity.Producer;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;

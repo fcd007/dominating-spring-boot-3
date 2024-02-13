@@ -1,10 +1,10 @@
 package br.dev.dantas.point.controller.producercontroller;
 
-import br.dev.dantas.point.mappers.ProducerMapper;
-import br.dev.dantas.point.request.ProducerPostRequest;
-import br.dev.dantas.point.request.ProducerPutRequest;
-import br.dev.dantas.point.response.ProducerGetResponse;
-import br.dev.dantas.point.response.ProducerPostResponse;
+import br.dev.dantas.point.domain.mappers.ProducerMapper;
+import br.dev.dantas.point.controller.producercontroller.request.ProducerPostRequest;
+import br.dev.dantas.point.controller.producercontroller.request.ProducerPutRequest;
+import br.dev.dantas.point.controller.producercontroller.response.ProducerGetResponse;
+import br.dev.dantas.point.controller.producercontroller.response.ProducerPostResponse;
 import br.dev.dantas.point.service.ProducerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = {IProducerController.V1_PATH_DEFAULT, IProducerController.V1_PATH_OTHER})

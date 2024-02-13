@@ -1,4 +1,4 @@
-package br.dev.dantas.point.request;
+package br.dev.dantas.point.controller.producercontroller.request;
 
 import lombok.*;
 

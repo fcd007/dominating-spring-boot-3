@@ -1,7 +1,7 @@
 package br.dev.dantas.point.repository;
 
 import br.dev.dantas.point.commons.ProducerUtils;
-import br.dev.dantas.point.domain.Producer;
+import br.dev.dantas.point.domain.entity.Producer;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
