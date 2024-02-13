@@ -1,6 +1,6 @@
 # D / T / A / P
 database:
   url: localhost:3306
-  username: mysql
-  password: 1234
+  username: ${LOCAL_USERNAME}
+  password: ${LOCAL_PASSWORD}
 
