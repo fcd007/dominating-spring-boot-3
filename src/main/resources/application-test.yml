@@ -1,6 +1,6 @@
 # D / T / A / P
 database:
-  url: localhost:3306
+  url: localhost:5432
   username: ${LOCAL_USERNAME}
   password: ${LOCAL_PASSWORD}
 

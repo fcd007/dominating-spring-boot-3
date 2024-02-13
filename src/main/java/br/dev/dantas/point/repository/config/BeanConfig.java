@@ -1,4 +1,4 @@
-package br.dev.dantas.point.config;
+package br.dev.dantas.point.repository.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
