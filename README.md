@@ -1,4 +1,4 @@
-# dominating-spring-boot-3
+# Java 17 and Spring Boot 3
 Projeto desenvolvimento spring boot
 
 ## Descrição do projeto
