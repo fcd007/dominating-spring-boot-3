@@ -3,10 +3,7 @@ package br.dev.dantas.point.controller.producercontroller;
 import br.dev.dantas.point.commons.ProducerUtils;
 import br.dev.dantas.point.repository.ProducerData;
 import br.dev.dantas.point.repository.ProducerHardCodeRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +20,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.nio.file.Files;
 
 @WebMvcTest(ProducerController.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ProducerControllerTest {
 
 

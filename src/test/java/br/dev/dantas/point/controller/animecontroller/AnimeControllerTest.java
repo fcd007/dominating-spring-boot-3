@@ -5,10 +5,7 @@ import br.dev.dantas.point.commons.FileUtils;
 import br.dev.dantas.point.domain.entity.Anime;
 import br.dev.dantas.point.repository.AnimeData;
 import br.dev.dantas.point.repository.AnimeHardCodeRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +21,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.List;
 
 @WebMvcTest(AnimeController.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AnimeControllerTest {
 
     @Autowired
