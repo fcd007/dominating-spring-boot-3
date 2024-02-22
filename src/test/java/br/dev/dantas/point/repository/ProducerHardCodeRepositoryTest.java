@@ -39,7 +39,7 @@ class ProducerHardCodeRepositoryTest {
     @Order(1)
     void findAll_ReturnsAllProducers_WhenSuccessful() {
         var producers = repository.findAll();
-        Assertions.assertThat(producers).hasSameElementsAs(producers);
+        Assertions.assertThat(producerData.getProducers()).hasSameElementsAs(producers);
     }
 
     @Test
