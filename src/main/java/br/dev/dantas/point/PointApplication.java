@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"test.outside", "br.dev.dantas.point"})
+@ComponentScan(basePackages = {"br.dev.dantas"})
 public class PointApplication {
 
     public static void main(String[] args) {
