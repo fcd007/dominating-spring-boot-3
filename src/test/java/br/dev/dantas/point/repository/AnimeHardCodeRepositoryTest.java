@@ -40,8 +40,8 @@ class AnimeHardCodeRepositoryTest {
     @DisplayName("findAll() returns a list with all animes")
     @Order(1)
     void findAll_ReturnsAllAnimes_WhenSuccessful() {
-        var animes = repository.findAll();
-        Assertions.assertThat(animes).hasSameElementsAs(animes);
+        var listAnimes = repository.findAll();
+        Assertions.assertThat(animes).hasSameElementsAs(listAnimes);
     }
 
     @Test
@@ -56,16 +56,16 @@ class AnimeHardCodeRepositoryTest {
     @DisplayName("findByName() returns all animes when name is null")
     @Order(3)
     void findByName_ReturnsAllAnimes_WhenNameIsNulll() {
-        var animes = repository.findByName(null);
-        Assertions.assertThat(animes).hasSameElementsAs(animes);
+        var anime = repository.findByName(null);
+        Assertions.assertThat(animes).hasSameElementsAs(anime);
     }
 
     @Test
     @DisplayName("findByName() returns list witg filtered animes name is not null")
     @Order(4)
     void findByName_ReturnsFilteredAnimes_WhenNameIsNotNulll() {
-        var animes = repository.findByName("Superman");
-        Assertions.assertThat(animes).hasSize(1).contains(this.animes.get(2));
+        var anime = repository.findByName("Superman");
+        Assertions.assertThat(anime).hasSize(1).contains(this.animes.get(2));
     }
 
     @Test

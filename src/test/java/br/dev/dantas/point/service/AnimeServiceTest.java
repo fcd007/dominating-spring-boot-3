@@ -80,7 +80,7 @@ class AnimeServiceTest {
         BDDMockito.when(repository.findById(id)).thenReturn(Optional.of(animeExpected));
 
         var animeOptional = service.findById(id);
-        Assertions.assertThat(animeOptional).isEqualTo(animeOptional);
+        Assertions.assertThat(animeOptional).isEqualTo(animeExpected);
     }
 
     @Test
