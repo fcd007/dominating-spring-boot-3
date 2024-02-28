@@ -113,9 +113,9 @@ class AnimeControllerTest {
     }
 
     @Test
-    @DisplayName("save() creates a producer")
+    @DisplayName("save() create a Anime")
     @Order(6)
-    void save_CreateProducer_WhenSuccessful() throws Exception {
+    void save_CreateAnime_WhenSuccessful() throws Exception {
         var request = fileUtils.readResourceFile("anime/post-request-anime-200.json");
         var response = fileUtils.readResourceFile("anime/post-response-anime-201.json");
 
@@ -172,7 +172,7 @@ class AnimeControllerTest {
     @Test
     @DisplayName("delete() removes a throw ResponseStatusException not found to be delete")
     @Order(10)
-    void delete_ThrowResponseStatusException_WhenNoProducerIsFound() throws Exception {
+    void delete_ThrowResponseStatusException_WhenNoAnimeIsFound() throws Exception {
         var id = 11L;
         mockMvc.perform(MockMvcRequestBuilders.delete(IAnimeController.V1_PATH_DEFAULT + "/{id}", id))
                 .andDo(MockMvcResultHandlers.print())
