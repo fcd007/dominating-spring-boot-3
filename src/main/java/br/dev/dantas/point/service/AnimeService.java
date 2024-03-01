@@ -28,8 +28,8 @@ public class AnimeService {
     }
 
     public void delete(Long id) {
-        var anime = findById(id);
-        animeHardCodeRepository.delete(anime);
+        var user = findById(id);
+        animeHardCodeRepository.delete(user);
     }
 
     public void update(Anime animeToUpdate) {

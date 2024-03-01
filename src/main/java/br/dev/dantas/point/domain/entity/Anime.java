@@ -14,6 +14,7 @@ import java.util.List;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Anime {
 
+    @EqualsAndHashCode.Include
     private Long id;
 
     private String name;
