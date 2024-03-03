@@ -99,7 +99,7 @@ class AnimeServiceTest {
     @DisplayName("save() creates a anime")
     @Order(6)
     void save_CreateAnime_WhenSuccessful() {
-        var animeToBeSaved =  animeUtils.newAnimeToSave();
+        var animeToBeSaved = animeUtils.newAnimeToSave();
 
         BDDMockito.when(repository.save(animeToBeSaved)).thenReturn(animeToBeSaved);
 
