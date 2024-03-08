@@ -61,11 +61,11 @@ class AnimeHardCodeRepositoryTest {
     }
 
     @Test
-    @DisplayName("findByName() returns list witg filtered animes name is not null")
+    @DisplayName("findByName() returns list with filtered animes name is not null")
     @Order(4)
     void findByName_ReturnsFilteredAnimes_WhenNameIsNotNulll() {
         var anime = repository.findByName("Superman");
-        Assertions.assertThat(anime).hasSize(1).contains(this.animes.get(2));
+        Assertions.assertThat(anime).hasSize(1).contains(this.animes.get(0));
     }
 
     @Test

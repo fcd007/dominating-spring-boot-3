@@ -19,6 +19,7 @@ import java.util.List;
 @Log4j2
 @RequiredArgsConstructor
 public class ProducerController {
+
     private final ProducerService producerService;
     private final ProducerMapper mapper;
 

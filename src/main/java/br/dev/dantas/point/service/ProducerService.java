@@ -14,27 +14,27 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProducerService {
 
-    private final ProducerHardCodeRepository producerHardCodeRepository;
+    private final ProducerHardCodeRepository repository;
 
     public List<Producer> listAll(String name) {
-        return producerHardCodeRepository.findByName(name);
+        return repository.findByName(name);
     }
 
     public Producer save(Producer producer) {
-        return producerHardCodeRepository.save(producer);
+        return repository.save(producer);
     }
 
     public Optional<Producer> findById(Long id) {
-        return producerHardCodeRepository.findById(id);
+        return repository.findById(id);
     }
 
     public void delete(Long id) {
         var producer = findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not found to be delete"));
-        producerHardCodeRepository.delete(producer);
+        repository.delete(producer);
     }
 
     public void update(Producer producerToUpdate) {
         findById(producerToUpdate.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not found to be update"));
-        producerHardCodeRepository.update(producerToUpdate);
+        repository.update(producerToUpdate);
     }
 }
