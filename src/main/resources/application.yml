@@ -17,6 +17,6 @@ logging:
 # D / T / A / P
 database:
   url: localhost:5432
-  username: ${LOCAL_USERNAME}
-  password: ${LOCAL_PASSWORD}
+  username: postgres
+  password: 1234
 

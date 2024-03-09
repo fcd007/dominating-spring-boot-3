@@ -21,6 +21,7 @@ import java.util.List;
 public class ProducerController {
 
     private final ProducerService producerService;
+
     private final ProducerMapper mapper;
 
     @GetMapping

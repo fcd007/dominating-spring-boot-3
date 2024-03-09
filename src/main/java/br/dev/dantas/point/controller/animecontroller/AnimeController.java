@@ -19,7 +19,9 @@ import java.util.List;
 @Log4j2
 @RequiredArgsConstructor
 public class AnimeController {
-    private final AnimeMapper MAPPER;
+
+    private final AnimeMapper mapper;
+
     private final AnimeService animeService;
 
     @GetMapping
@@ -27,7 +29,7 @@ public class AnimeController {
         log.info("Request received to list all animes, param name '{}'", name);
 
         var anime = animeService.listAll(name);
-        var animeGetResponses = MAPPER.toAnimeGetResponseList(anime);
+        var animeGetResponses = mapper.toAnimeGetResponseList(anime);
 
         return ResponseEntity.ok(animeGetResponses);
     }
@@ -37,7 +39,7 @@ public class AnimeController {
         log.info("Request received find anime by id '{}'", id);
 
         var anime = animeService.findById(id);
-        var animeGetResponse = MAPPER.toAnimeGetResponse(anime);
+        var animeGetResponse = mapper.toAnimeGetResponse(anime);
 
         return ResponseEntity.ok(animeGetResponse);
     }
@@ -46,9 +48,9 @@ public class AnimeController {
     public ResponseEntity<AnimePostResponse> save(@RequestBody AnimePostRequest request) {
         log.info("Request create anime post method '{}'", request);
 
-        var anime = MAPPER.toAnime(request);
+        var anime = mapper.toAnime(request);
         anime = animeService.save(anime);
-        var response = MAPPER.toAnimePostResponse(anime);
+        var response = mapper.toAnimePostResponse(anime);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -65,7 +67,7 @@ public class AnimeController {
     public ResponseEntity<Void> update(@RequestBody AnimePutRequest request) {
         log.info("Request received to update the anime '{}'", request);
 
-        var animeToUpdate = MAPPER.toAnime(request);
+        var animeToUpdate = mapper.toAnime(request);
         animeService.update(animeToUpdate);
 
         return ResponseEntity.noContent().build();

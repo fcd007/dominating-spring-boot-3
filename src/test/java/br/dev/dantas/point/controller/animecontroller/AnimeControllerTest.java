@@ -3,6 +3,7 @@ package br.dev.dantas.point.controller.animecontroller;
 import br.dev.dantas.point.commons.AnimeUtils;
 import br.dev.dantas.point.commons.FileUtils;
 import br.dev.dantas.point.domain.entity.Anime;
+import br.dev.dantas.point.domain.mappers.AnimeMapperImpl;
 import br.dev.dantas.point.repository.AnimeData;
 import br.dev.dantas.point.repository.AnimeHardCodeRepository;
 import org.junit.jupiter.api.*;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -22,6 +24,7 @@ import java.util.List;
 
 @WebMvcTest(AnimeController.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Import({AnimeMapperImpl.class, FileUtils.class, AnimeUtils.class})
 class AnimeControllerTest {
 
     @Autowired
