@@ -1,14 +1,9 @@
 package br.dev.dantas.point.domain.mappers;
 
 import br.dev.dantas.point.domain.entity.Anime;
-import br.dev.dantas.point.controller.animecontroller.request.AnimePostRequest;
-import br.dev.dantas.point.controller.animecontroller.request.AnimePutRequest;
-import br.dev.dantas.point.controller.animecontroller.response.AnimeGetResponse;
-import br.dev.dantas.point.controller.animecontroller.response.AnimePostResponse;
-import br.dev.dantas.point.controller.animecontroller.response.AnimePutResponse;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
+import br.dev.dantas.point.controller.animecontroller.request.*;
+import br.dev.dantas.point.controller.animecontroller.response.*;
+import org.mapstruct.*;
 
 import java.util.List;
 
