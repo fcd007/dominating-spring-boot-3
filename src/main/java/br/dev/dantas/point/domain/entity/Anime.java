@@ -4,8 +4,7 @@ package br.dev.dantas.point.domain.entity;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Getter
 @Setter
