@@ -6,6 +6,7 @@ import br.dev.dantas.point.controller.animecontroller.request.AnimePutRequest;
 import br.dev.dantas.point.controller.animecontroller.response.AnimeGetResponse;
 import br.dev.dantas.point.controller.animecontroller.response.AnimePostResponse;
 import br.dev.dantas.point.service.AnimeService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,7 @@ public class AnimeController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<AnimeGetResponse> findById(@PathVariable Long id) {
+    public ResponseEntity<AnimeGetResponse> findById(@PathVariable @Valid Long id) {
         log.info("Request received find anime by id '{}'", id);
 
         var anime = animeService.findById(id);
@@ -45,7 +46,7 @@ public class AnimeController {
     }
 
     @PostMapping
-    public ResponseEntity<AnimePostResponse> save(@RequestBody AnimePostRequest request) {
+    public ResponseEntity<AnimePostResponse> save(@RequestBody @Valid AnimePostRequest request) {
         log.info("Request create anime post method '{}'", request);
 
         var anime = mapper.toAnime(request);
@@ -56,7 +57,7 @@ public class AnimeController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable @Valid Long id) {
         log.info("Request received to delete the anime by id'{}'", id);
 
         animeService.delete(id);
@@ -64,7 +65,7 @@ public class AnimeController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody AnimePutRequest request) {
+    public ResponseEntity<Void> update(@RequestBody @Valid AnimePutRequest request) {
         log.info("Request received to update the anime '{}'", request);
 
         var animeToUpdate = mapper.toAnime(request);
