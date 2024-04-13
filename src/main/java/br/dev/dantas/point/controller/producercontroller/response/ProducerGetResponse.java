@@ -1,9 +1,6 @@
 package br.dev.dantas.point.controller.producercontroller.response;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
