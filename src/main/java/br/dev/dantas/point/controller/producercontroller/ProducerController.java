@@ -1,15 +1,13 @@
 package br.dev.dantas.point.controller.producercontroller;
 
 import br.dev.dantas.point.domain.mappers.ProducerMapper;
-import br.dev.dantas.point.controller.producercontroller.request.ProducerPostRequest;
-import br.dev.dantas.point.controller.producercontroller.request.ProducerPutRequest;
-import br.dev.dantas.point.controller.producercontroller.response.ProducerGetResponse;
-import br.dev.dantas.point.controller.producercontroller.response.ProducerPostResponse;
+import br.dev.dantas.point.controller.producercontroller.request.*;
+import br.dev.dantas.point.controller.producercontroller.response.*;
 import br.dev.dantas.point.service.ProducerService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,7 +33,7 @@ public class ProducerController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ProducerGetResponse> findById(@PathVariable Long id) {
+    public ResponseEntity<ProducerGetResponse> findById(@PathVariable @Valid Long id) {
         log.info("Request received find producer by id '{}' ", id);
 
         var producer = producerService.findById(id);
@@ -45,7 +43,7 @@ public class ProducerController {
     }
 
     @PostMapping
-    public ResponseEntity<ProducerPostResponse> save(@RequestBody ProducerPostRequest request) {
+    public ResponseEntity<ProducerPostResponse> save(@RequestBody @Valid ProducerPostRequest request) {
         log.info("Request create produce post method '{}' ", request);
 
         var producer = mapper.toProducer(request);
@@ -56,7 +54,7 @@ public class ProducerController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteById(@PathVariable @Valid Long id) {
         log.info("Request received to delete the producer by id'{}' ", id);
 
         producerService.delete(id);
@@ -65,7 +63,7 @@ public class ProducerController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody ProducerPutRequest request) {
+    public ResponseEntity<Void> update(@RequestBody @Valid ProducerPutRequest request) {
         log.info("Request received to update the producer '{}' ", request);
 
         var producerToUpdate = mapper.toProducer(request);
