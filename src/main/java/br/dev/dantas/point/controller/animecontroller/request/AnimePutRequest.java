@@ -1,9 +1,7 @@
 package br.dev.dantas.point.controller.animecontroller.request;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import jakarta.validation.constraints.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -12,7 +10,12 @@ import java.time.LocalDateTime;
 @Builder
 @ToString
 public class AnimePutRequest {
+
+    @NotNull
     private Long id;
+
+    @NotBlank(message = "the field name is required")
     private String name;
+
     private LocalDateTime createdAt;
 }
