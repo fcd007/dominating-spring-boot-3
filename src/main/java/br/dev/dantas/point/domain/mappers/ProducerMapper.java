@@ -1,14 +1,9 @@
 package br.dev.dantas.point.domain.mappers;
 
 import br.dev.dantas.point.domain.entity.Producer;
-import br.dev.dantas.point.controller.producercontroller.request.ProducerPostRequest;
-import br.dev.dantas.point.controller.producercontroller.request.ProducerPutRequest;
-import br.dev.dantas.point.controller.producercontroller.response.ProducerGetResponse;
-import br.dev.dantas.point.controller.producercontroller.response.ProducerPostResponse;
-import br.dev.dantas.point.controller.producercontroller.response.ProducerPutResponse;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
+import br.dev.dantas.point.controller.producercontroller.request.*;
+import br.dev.dantas.point.controller.producercontroller.response.*;
+import org.mapstruct.*;
 
 import java.util.List;
 import java.util.Optional;
