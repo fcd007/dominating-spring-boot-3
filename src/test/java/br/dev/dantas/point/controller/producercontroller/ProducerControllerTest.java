@@ -2,6 +2,7 @@ package br.dev.dantas.point.controller.producercontroller;
 
 import br.dev.dantas.point.commons.FileUtils;
 import br.dev.dantas.point.commons.ProducerUtils;
+import br.dev.dantas.point.domain.mappers.ProducerMapperImpl;
 import br.dev.dantas.point.repository.ProducerData;
 import br.dev.dantas.point.repository.ProducerHardCodeRepository;
 import org.assertj.core.api.Assertions;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -28,6 +30,7 @@ import java.util.stream.Stream;
 
 @WebMvcTest(ProducerController.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Import({ProducerMapperImpl.class, FileUtils.class, ProducerUtils.class})
 class ProducerControllerTest {
 
     @Autowired
