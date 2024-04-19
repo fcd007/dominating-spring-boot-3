@@ -1,11 +1,10 @@
 package br.dev.dantas.point.service;
 
 import br.dev.dantas.point.domain.entity.Producer;
+import br.dev.dantas.point.exception.NotFoundException;
 import br.dev.dantas.point.repository.ProducerHardCodeRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,12 +28,12 @@ public class ProducerService {
     }
 
     public void delete(Long id) {
-        var producer = findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not found to be delete"));
+        var producer = findById(id).orElseThrow(() -> new NotFoundException("Producer not found to be delete"));
         repository.delete(producer);
     }
 
     public void update(Producer producerToUpdate) {
-        findById(producerToUpdate.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not found to be update"));
+        findById(producerToUpdate.getId()).orElseThrow(() -> new NotFoundException("Producer not found to be update"));
         repository.update(producerToUpdate);
     }
 }
