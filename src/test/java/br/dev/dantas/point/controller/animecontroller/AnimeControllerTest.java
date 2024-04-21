@@ -24,7 +24,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -64,7 +63,7 @@ class AnimeControllerTest {
         var response = fileUtils.readResourceFile("anime/get-anime-null-name-200.json");
 
         mockMvc.perform((MockMvcRequestBuilders
-                .get(IAnimeController.V1_PATH_DEFAULT)))
+                        .get(IAnimeController.V1_PATH_DEFAULT)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(response));
@@ -77,8 +76,8 @@ class AnimeControllerTest {
         var response = fileUtils.readResourceFile("anime/get-anime-superman-name-200.json");
         var anime = "Superman";
         mockMvc.perform((MockMvcRequestBuilders
-                .get(IAnimeController.V1_PATH_DEFAULT))
-                .param("name", anime))
+                        .get(IAnimeController.V1_PATH_DEFAULT))
+                        .param("name", anime))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(response));
@@ -98,14 +97,19 @@ class AnimeControllerTest {
     }
 
     @Test
-    @DisplayName("findById() returns a throw ResponseStatusException not found")
+    @DisplayName("findById() returns a throw NotFoundException not found")
     @Order(4)
-    void findById_ThrowResponseStatusException_WhenNoAnimeIsFound() throws Exception {
+    void findById_ThrowNotFoundException_WhenNoAnimeIsFound() throws Exception {
         var id = 10L;
-        mockMvc.perform(MockMvcRequestBuilders.get(IAnimeController.V1_PATH_DEFAULT + "/{id}", id))
+        var mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(IAnimeController.V1_PATH_DEFAULT + "/{id}", id))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(MockMvcResultMatchers.status().reason("Anime not found"));
+                .andReturn();
+
+        var resolvedException = mvcResult.getResolvedException();
+        Assertions.assertThat(mvcResult.getResolvedException()).isNotNull();
+
+        Assertions.assertThat(Objects.requireNonNull(resolvedException).getMessage()).contains("Anime not found");
     }
 
     @Test
@@ -116,7 +120,7 @@ class AnimeControllerTest {
         var animeNotFound = "animeTeste";
 
         mockMvc.perform((MockMvcRequestBuilders
-                .get(IAnimeController.V1_PATH_DEFAULT)).param("name", animeNotFound))
+                        .get(IAnimeController.V1_PATH_DEFAULT)).param("name", animeNotFound))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(response));
@@ -133,8 +137,8 @@ class AnimeControllerTest {
         BDDMockito.when(repository.save(ArgumentMatchers.any())).thenReturn(animeToBeSaved);
 
         mockMvc.perform(MockMvcRequestBuilders
-                .post(IAnimeController.V1_PATH_DEFAULT)
-                .content(request).contentType(MediaType.APPLICATION_JSON))
+                        .post(IAnimeController.V1_PATH_DEFAULT)
+                        .content(request).contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print()).andExpect(MockMvcResultMatchers.content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
@@ -155,18 +159,23 @@ class AnimeControllerTest {
     }
 
     @Test
-    @DisplayName("update() updates a throw ResponseStatusException not found")
+    @DisplayName("update() updates a throw NotFoundException not found")
     @Order(8)
-    void update_ThrowResponseStatusException_WhenNoAnimeIsFound() throws Exception {
+    void update_ThrowNotFoundException_WhenNoAnimeIsFound() throws Exception {
         var request = fileUtils.readResourceFile("anime/put-request-anime-404.json");
 
-        mockMvc.perform(MockMvcRequestBuilders
+        var mvcResult = mockMvc.perform(MockMvcRequestBuilders
                         .put(IAnimeController.V1_PATH_DEFAULT)
                         .content(request)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(MockMvcResultMatchers.status().reason("Anime not found"));
+                .andReturn();
+
+        var resolvedException = mvcResult.getResolvedException();
+        Assertions.assertThat(mvcResult.getResolvedException()).isNotNull();
+
+        Assertions.assertThat(Objects.requireNonNull(resolvedException).getMessage()).contains("Anime not found");
     }
 
     @Test
@@ -180,14 +189,19 @@ class AnimeControllerTest {
     }
 
     @Test
-    @DisplayName("delete() removes a throw ResponseStatusException not found to be delete")
+    @DisplayName("delete() removes a throw NotFoundException not found to be delete")
     @Order(10)
-    void delete_ThrowResponseStatusException_WhenNoAnimeIsFound() throws Exception {
+    void delete_ThrowNotFoundException_WhenNoAnimeIsFound() throws Exception {
         var id = 11L;
-        mockMvc.perform(MockMvcRequestBuilders.delete(IAnimeController.V1_PATH_DEFAULT + "/{id}", id))
+        var mvcResult = mockMvc.perform(MockMvcRequestBuilders.delete(IAnimeController.V1_PATH_DEFAULT + "/{id}", id))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(MockMvcResultMatchers.status().reason("Anime not found"));
+                .andReturn();
+
+        var resolvedException = mvcResult.getResolvedException();
+        Assertions.assertThat(mvcResult.getResolvedException()).isNotNull();
+
+        Assertions.assertThat(Objects.requireNonNull(resolvedException).getMessage()).contains("Anime not found");
     }
 
     @ParameterizedTest

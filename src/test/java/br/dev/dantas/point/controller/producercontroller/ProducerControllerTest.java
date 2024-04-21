@@ -128,18 +128,23 @@ class ProducerControllerTest {
     }
 
     @Test
-    @DisplayName("update() updates a throw ResponseStatusException not found")
+    @DisplayName("update() updates a throw NotFoundException not found")
     @Order(6)
-    void update_ThrowResponseStatusException_WhenNoProducerIsFound() throws Exception {
+    void update_ThrowNotFoundException_WhenNoProducerIsFound() throws Exception {
         var request = fileUtils.readResourceFile("producer/put-request-producer-404.json");
 
-        mockMvc.perform(MockMvcRequestBuilders
+        var mvcResult = mockMvc.perform(MockMvcRequestBuilders
                         .put(IProducerController.V1_PATH_DEFAULT)
                         .content(request)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(MockMvcResultMatchers.status().reason("Producer not found to be update"));
+                .andReturn();
+
+        var resolvedException = mvcResult.getResolvedException();
+        Assertions.assertThat(mvcResult.getResolvedException()).isNotNull();
+
+        Assertions.assertThat(Objects.requireNonNull(resolvedException).getMessage()).contains("Producer not found to be update");
     }
 
     @Test
@@ -153,14 +158,19 @@ class ProducerControllerTest {
     }
 
     @Test
-    @DisplayName("delete() removes a throw ResponseStatusException not found to be delete")
+    @DisplayName("delete() removes a throw NotFoundException not found to be delete")
     @Order(8)
-    void delete_ThrowResponseStatusException_WhenNoProducerIsFound() throws Exception {
+    void delete_ThrowNotFoundException_WhenNoProducerIsFound() throws Exception {
         var id = 11L;
-        mockMvc.perform(MockMvcRequestBuilders.delete(IProducerController.V1_PATH_DEFAULT + "/{id}", id))
+        var mvcResult = mockMvc.perform(MockMvcRequestBuilders.delete(IProducerController.V1_PATH_DEFAULT + "/{id}", id))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(MockMvcResultMatchers.status().reason("Producer not found to be delete"));
+                .andReturn();
+
+        var resolvedException = mvcResult.getResolvedException();
+        Assertions.assertThat(mvcResult.getResolvedException()).isNotNull();
+
+        Assertions.assertThat(Objects.requireNonNull(resolvedException).getMessage()).contains("Producer not found to be delete");
     }
 
     @ParameterizedTest
