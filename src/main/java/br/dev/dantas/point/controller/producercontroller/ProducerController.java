@@ -3,8 +3,6 @@ package br.dev.dantas.point.controller.producercontroller;
 import br.dev.dantas.point.domain.mappers.ProducerMapper;
 import br.dev.dantas.point.controller.producercontroller.request.*;
 import br.dev.dantas.point.controller.producercontroller.response.*;
-import br.dev.dantas.point.exception.DefaultErrorMessage;
-import br.dev.dantas.point.exception.NotFoundException;
 import br.dev.dantas.point.service.ProducerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

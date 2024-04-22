@@ -1,9 +1,8 @@
 package br.dev.dantas.point.service;
 
 import br.dev.dantas.point.domain.entity.Anime;
-import br.dev.dantas.point.exception.CustomNotFoundException;
-import br.dev.dantas.point.exception.NotFoundException;
 import br.dev.dantas.point.repository.AnimeHardCodeRepository;
+import exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

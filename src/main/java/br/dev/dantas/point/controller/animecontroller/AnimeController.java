@@ -5,8 +5,6 @@ import br.dev.dantas.point.controller.animecontroller.request.AnimePostRequest;
 import br.dev.dantas.point.controller.animecontroller.request.AnimePutRequest;
 import br.dev.dantas.point.controller.animecontroller.response.AnimeGetResponse;
 import br.dev.dantas.point.controller.animecontroller.response.AnimePostResponse;
-import br.dev.dantas.point.exception.DefaultErrorMessage;
-import br.dev.dantas.point.exception.NotFoundException;
 import br.dev.dantas.point.service.AnimeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
