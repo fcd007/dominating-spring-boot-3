@@ -2,10 +2,7 @@ package br.dev.dantas.point.repository;
 
 import br.dev.dantas.point.domain.entity.Producer;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-import test.outside.Connection;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -14,9 +11,6 @@ import java.util.Optional;
 public class ProducerHardCodeRepository {
 
     private final ProducerData producerData;
-
-    @Qualifier("live")
-    private final Connection connection;
 
     public List<Producer> findAll() {
         return producerData.getProducers();

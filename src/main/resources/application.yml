@@ -1,22 +1,7 @@
 spring:
-
-  profiles:
-    active:
-     - live
-     - test
-  application:
-    name: service
-
-server:
-  port: 8080
-
-logging:
-  level:
-    root: INFO
-
-# D / T / A / P
-database:
-  url: localhost:5432
-  username: postgres
-  password: 1234
-
+  datasource:
+    url: jdbc:mysql://localhost:3306/user_service?userTimezone=true&serverTimezone=UTC&createDatabaseIfNotExist=true
+    username: root
+    password: example
+  jpa:
+    show-sql: true
