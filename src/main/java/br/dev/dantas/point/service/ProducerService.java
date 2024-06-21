@@ -1,7 +1,7 @@
 package br.dev.dantas.point.service;
 
 import br.dev.dantas.point.domain.entity.Producer;
-import br.dev.dantas.point.repository.ProducerHardCodeRepository;
+import br.dev.dantas.point.repository.ProducerRepository;
 import exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,10 +13,14 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProducerService {
 
-    private final ProducerHardCodeRepository repository;
+    private final ProducerRepository repository;
 
-    public List<Producer> listAll(String name) {
-        return repository.findByName(name);
+    public List<Producer> findAll(String name) {
+        return findByName(name);
+    }
+
+    public List<Producer> findByName(String name) {
+        return name != null ? repository.findByName(name) : repository.findAll();
     }
 
     public Producer save(Producer producer) {
@@ -33,7 +37,9 @@ public class ProducerService {
     }
 
     public void update(Producer producerToUpdate) {
-        findById(producerToUpdate.getId()).orElseThrow(() -> new NotFoundException("Producer not found to be update"));
-        repository.update(producerToUpdate);
+        var producer = findById(producerToUpdate.getId()).orElseThrow(() -> new NotFoundException("Producer not found to be update"));
+
+        producerToUpdate.setCreatedAt(producer.getCreatedAt());
+        repository.save(producerToUpdate);
     }
 }

@@ -1,7 +1,7 @@
 package br.dev.dantas.point.service;
 
 import br.dev.dantas.point.domain.entity.Anime;
-import br.dev.dantas.point.repository.AnimeHardCodeRepository;
+import br.dev.dantas.point.repository.AnimeRepository;
 import exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,31 +12,37 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AnimeService {
 
-    private final AnimeHardCodeRepository animeHardCodeRepository;
+    private final AnimeRepository repository;
 
-    public List<Anime> listAll(String name) {
-        return animeHardCodeRepository.findByName(name);
+    public List<Anime> findAll(String name) {
+        return findByName(name);
+    }
+
+    public List<Anime> findByName(String name) {
+        return name != null ? repository.findByName(name) : repository.findAll();
     }
 
     public Anime save(Anime anime) {
-        return animeHardCodeRepository.save(anime);
+        return repository.save(anime);
     }
 
     public Anime findById(Long id) {
-        return animeHardCodeRepository.findById(id).orElseThrow(() -> new NotFoundException("Anime not found"));
+        return repository.findById(id).orElseThrow(() -> new NotFoundException("Anime not found"));
     }
 
     public void delete(Long id) {
         var user = findById(id);
-        animeHardCodeRepository.delete(user);
+        repository.delete(user);
     }
 
     public void update(Anime animeToUpdate) {
-        assertAnimeExists(animeToUpdate);
-        animeHardCodeRepository.update(animeToUpdate);
+        var anime = assertAnimeExists(animeToUpdate);
+
+        animeToUpdate.setCreatedAt(anime.getCreatedAt());
+        repository.save(animeToUpdate);
     }
 
-    private void assertAnimeExists(Anime animeToUpdate) {
-        findById(animeToUpdate.getId());
+    private Anime assertAnimeExists(Anime animeToUpdate) {
+        return findById(animeToUpdate.getId());
     }
 }

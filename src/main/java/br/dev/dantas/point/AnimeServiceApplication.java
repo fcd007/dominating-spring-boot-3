@@ -6,9 +6,9 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"br.dev.dantas"})
-public class PointApplication {
+public class AnimeServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(PointApplication.class, args);
+        SpringApplication.run(AnimeServiceApplication.class, args);
     }
 }
