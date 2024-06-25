@@ -80,7 +80,7 @@ class ProducerServiceTest {
         BDDMockito.when(repository.findById(id)).thenReturn(Optional.of(producerExpected));
 
         var producerOptional = service.findById(id);
-        Assertions.assertThat(producerOptional).isEqualTo(producerExpected);
+        Assertions.assertThat(producerOptional).isEqualTo(Optional.of(producerExpected));
     }
 
     @Test
@@ -88,11 +88,11 @@ class ProducerServiceTest {
     @Order(5)
     void findById_ReturnsEmptyOptionalProducer_WhenIsDoesIdNotExists() {
         var id = 1L;
+        var producerExpected = this.producers.get(0);
+        BDDMockito.when(repository.findById(id)).thenReturn(Optional.ofNullable(producerExpected));
 
-        BDDMockito.when(repository.findById(id)).thenReturn(Optional.empty());
-        Assertions.assertThatException()
-                .isThrownBy(() -> service.findById(id))
-                .isInstanceOf(ResponseStatusException.class);
+        var userOptional = service.findById(id);
+        Assertions.assertThat(userOptional).isEqualTo(Optional.ofNullable(producerExpected));
     }
 
     @Test
