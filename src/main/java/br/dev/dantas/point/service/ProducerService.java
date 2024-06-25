@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,19 +26,21 @@ public class ProducerService {
         return repository.save(producer);
     }
 
-    public Optional<Producer> findById(Long id) {
-        return repository.findById(id);
+    public Producer findById(Long id) {
+        return repository.findById(id).orElseThrow(() -> new NotFoundException("Producer not found"));
     }
 
     public void delete(Long id) {
-        var producer = findById(id).orElseThrow(() -> new NotFoundException("Producer not found to be delete"));
+        var producer = findById(id);
         repository.delete(producer);
     }
 
     public void update(Producer producerToUpdate) {
-        var producer = findById(producerToUpdate.getId()).orElseThrow(() -> new NotFoundException("Producer not found to be update"));
-
-        producerToUpdate.setCreatedAt(producer.getCreatedAt());
+        assertProducerExists(producerToUpdate);
         repository.save(producerToUpdate);
+    }
+
+    private void assertProducerExists(Producer producerToUpdate) {
+        findById(producerToUpdate.getId());
     }
 }

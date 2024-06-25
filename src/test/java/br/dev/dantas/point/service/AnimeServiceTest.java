@@ -3,6 +3,7 @@ package br.dev.dantas.point.service;
 import br.dev.dantas.point.commons.AnimeUtils;
 import br.dev.dantas.point.domain.entity.Anime;
 import br.dev.dantas.point.repository.AnimeHardCodeRepository;
+import br.dev.dantas.point.repository.AnimeRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,6 +11,7 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
@@ -24,7 +26,7 @@ class AnimeServiceTest {
     private AnimeService service;
 
     @Mock
-    private AnimeHardCodeRepository repository;
+    private AnimeRepository repository;
 
     private List<Anime> animes;
 
@@ -41,9 +43,9 @@ class AnimeServiceTest {
     @DisplayName("findAll() returns a list with all Animes")
     @Order(1)
     void findAll_ReturnsAllAnimes_WhenSuccessful() {
-        BDDMockito.when(repository.findByName(null)).thenReturn(this.animes);
+        BDDMockito.when(repository.findAll()).thenReturn(this.animes);
 
-        var animes = service.listAll(null);
+        var animes = service.findAll(null);
         Assertions.assertThat(animes).hasSameElementsAs(this.animes);
     }
 
@@ -53,11 +55,10 @@ class AnimeServiceTest {
     void findAll_ReturnsFoundAnimes_WhenNamePassedAndFound() {
         var name = "Superman";
         List<Anime> animesFound = this.animes.stream().filter(anime -> anime.getName().equals(name)).toList();
-
         BDDMockito.when(repository.findByName(name)).thenReturn(animesFound);
 
-        var animes = service.listAll(name);
-        Assertions.assertThat(animes).hasSize(1).contains(animesFound.get(0));
+        var listAnimes = service.findAll(name);
+        Assertions.assertThat(listAnimes).hasSize(1).contains(animesFound.get(0));
     }
 
     @Test
@@ -65,10 +66,11 @@ class AnimeServiceTest {
     @Order(3)
     void findByAll_ReturnsEmptyList_WhenNoNameIsFound() {
         var name = "x";
-        BDDMockito.when(repository.findByName(name)).thenReturn(Collections.emptyList());
 
-        var animes = service.listAll(name);
-        Assertions.assertThat(animes).isNotNull().isEmpty();
+        BDDMockito.when(repository.findByName(name)).thenReturn(Collections.emptyList());
+        var listAnimes = service.findAll(name);
+
+        Assertions.assertThat(listAnimes).isNotNull().isEmpty();
     }
 
     @Test
@@ -102,7 +104,6 @@ class AnimeServiceTest {
         var animeToBeSaved = animeUtils.newAnimeToSave();
 
         BDDMockito.when(repository.save(animeToBeSaved)).thenReturn(animeToBeSaved);
-
         var anime = service.save(animeToBeSaved);
 
         Assertions.assertThat(anime).isEqualTo(animeToBeSaved).hasNoNullFieldsOrProperties();
@@ -113,6 +114,7 @@ class AnimeServiceTest {
     @Order(7)
     void delete_RemovesAnime_WhenSuccessFul() {
         var id = 1L;
+
         var animeToDelete = this.animes.get(0);
         BDDMockito.when(repository.findById(id)).thenReturn(Optional.of(animeToDelete));
 
@@ -140,10 +142,9 @@ class AnimeServiceTest {
         animeToUpdate.setName("Image");
 
         BDDMockito.when(repository.findById(id)).thenReturn(Optional.of(animeToUpdate));
-        BDDMockito.doNothing().when(repository).update(animeToUpdate);
+        BDDMockito.when(repository.save(animeToUpdate)).thenReturn(animeToUpdate);
 
         service.update(animeToUpdate);
-
         Assertions.assertThatNoException().isThrownBy(() -> service.update(animeToUpdate));
     }
 
@@ -152,9 +153,9 @@ class AnimeServiceTest {
     @Order(10)
     void update_ThrowResponseStatusException_WhenNoAnimeIsFound() {
         var id = 1L;
+
         var animeToUpdate = this.animes.get(0);
         animeToUpdate.setName("Superman");
-
         BDDMockito.when(repository.findById(id)).thenReturn(Optional.empty());
 
         Assertions.assertThatException()

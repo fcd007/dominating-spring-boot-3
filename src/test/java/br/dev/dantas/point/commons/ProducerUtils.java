@@ -10,9 +10,9 @@ import java.util.List;
 @Component
 public class ProducerUtils {
     public List<Producer> newProducerList() {
-        var universal = Producer.builder().id(1L).name("Marvel").createdAt(LocalDateTime.now()).build();
-        var luca = Producer.builder().id(2L).name("Luca").createdAt(LocalDateTime.now()).build();
-        var marvel = Producer.builder().id(3L).name("Universal").createdAt(LocalDateTime.now()).build();
+        var universal = Producer.builder().id(1L).name("Marvel").createdAt(LocalDateTime.now()).lastUpdatedOn(LocalDateTime.now()).build();
+        var luca = Producer.builder().id(2L).name("Luca").createdAt(LocalDateTime.now()).lastUpdatedOn(LocalDateTime.now()).build();
+        var marvel = Producer.builder().id(3L).name("Universal").createdAt(LocalDateTime.now()).lastUpdatedOn(LocalDateTime.now()).build();
 
         return new ArrayList<>(List.of(universal, luca, marvel));
     }
@@ -22,6 +22,7 @@ public class ProducerUtils {
                 .id(9L)
                 .name("A24")
                 .createdAt(LocalDateTime.now())
+                .lastUpdatedOn(LocalDateTime.now())
                 .build();
     }
 }

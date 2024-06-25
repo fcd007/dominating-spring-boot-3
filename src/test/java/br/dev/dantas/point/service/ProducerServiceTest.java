@@ -2,7 +2,7 @@ package br.dev.dantas.point.service;
 
 import br.dev.dantas.point.commons.ProducerUtils;
 import br.dev.dantas.point.domain.entity.Producer;
-import br.dev.dantas.point.repository.ProducerHardCodeRepository;
+import br.dev.dantas.point.repository.ProducerRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,7 +24,7 @@ class ProducerServiceTest {
     private ProducerService service;
 
     @Mock
-    private ProducerHardCodeRepository repository;
+    private ProducerRepository repository;
 
     private List<Producer> producers;
 
@@ -40,9 +40,9 @@ class ProducerServiceTest {
     @DisplayName("findAll() returns a list with all producers")
     @Order(1)
     void findAll_ReturnsAllProducers_WhenSuccessful() {
-        BDDMockito.when(repository.findByName(null)).thenReturn(this.producers);
+        BDDMockito.when(repository.findAll()).thenReturn(this.producers);
 
-        var producers = service.listAll(null);
+        service.findAll(null);
         Assertions.assertThat(producers).hasSameElementsAs(this.producers);
     }
 
@@ -51,23 +51,23 @@ class ProducerServiceTest {
     @Order(2)
     void findAll_ReturnsFoundProducers_WhenNamePassedAndFound() {
         var name = "Marvel";
+
         List<Producer> producersFound = this.producers.stream().filter(producer -> producer.getName().equals(name)).toList();
-
         BDDMockito.when(repository.findByName(name)).thenReturn(producersFound);
+        var listProducers = service.findAll(name);
 
-        var producers = service.listAll(name);
-        Assertions.assertThat(producers).hasSize(1).contains(producersFound.get(0));
+        Assertions.assertThat(listProducers).hasSize(1).contains(producersFound.get(0));
     }
 
     @Test
-    @DisplayName("findBAll() returns an empty list when no producer is found by name")
+    @DisplayName("findAll() returns an empty list when no producer is found by name")
     @Order(3)
     void findByAll_ReturnsEmptyList_WhenNoNameIsFound() {
         var name = "x";
-        BDDMockito.when(repository.findByName(name)).thenReturn(Collections.emptyList());
 
-        var producers = service.listAll(name);
-        Assertions.assertThat(producers).isNotNull().isEmpty();
+        BDDMockito.when(repository.findByName(name)).thenReturn(Collections.emptyList());
+        var producerList = service.findAll(name);
+        Assertions.assertThat(producerList).isNotNull().isEmpty();
     }
 
     @Test
@@ -75,11 +75,12 @@ class ProducerServiceTest {
     @Order(4)
     void findById_ReturnsOptionalProducer_WhenIsIdExists() {
         var id = 1L;
+
         var producerExpected = this.producers.get(0);
         BDDMockito.when(repository.findById(id)).thenReturn(Optional.of(producerExpected));
 
         var producerOptional = service.findById(id);
-        Assertions.assertThat(producerOptional).isPresent().contains(producerExpected);
+        Assertions.assertThat(producerOptional).isEqualTo(producerExpected);
     }
 
     @Test
@@ -87,10 +88,11 @@ class ProducerServiceTest {
     @Order(5)
     void findById_ReturnsEmptyOptionalProducer_WhenIsDoesIdNotExists() {
         var id = 1L;
-        BDDMockito.when(repository.findById(id)).thenReturn(Optional.empty());
 
-        var producerOptional = service.findById(id);
-        Assertions.assertThat(producerOptional).isEmpty();
+        BDDMockito.when(repository.findById(id)).thenReturn(Optional.empty());
+        Assertions.assertThatException()
+                .isThrownBy(() -> service.findById(id))
+                .isInstanceOf(ResponseStatusException.class);
     }
 
     @Test
@@ -100,7 +102,6 @@ class ProducerServiceTest {
         var producerToBeSaved = producerUtils.newProducerToSave();
 
         BDDMockito.when(repository.save(producerToBeSaved)).thenReturn(producerToBeSaved);
-
         var producer = service.save(producerToBeSaved);
 
         Assertions.assertThat(producer).isEqualTo(producerToBeSaved).hasNoNullFieldsOrProperties();
@@ -111,6 +112,7 @@ class ProducerServiceTest {
     @Order(7)
     void delete_RemovesProducer_WhenSuccessFul() {
         var id = 1L;
+
         var producerToDelete = this.producers.get(0);
         BDDMockito.when(repository.findById(id)).thenReturn(Optional.of(producerToDelete));
         BDDMockito.doNothing().when(repository).delete(producerToDelete);
@@ -123,8 +125,8 @@ class ProducerServiceTest {
     @Order(8)
     void delete_ThrowResponseStatusException_WhenNoProducerIsFound() {
         var id = 1L;
-        BDDMockito.when(repository.findById(id)).thenReturn(Optional.empty());
 
+        BDDMockito.when(repository.findById(id)).thenReturn(Optional.empty());
         Assertions.assertThatException()
                 .isThrownBy(() -> service.delete(id))
                 .isInstanceOf(ResponseStatusException.class);
@@ -135,12 +137,12 @@ class ProducerServiceTest {
     @Order(9)
     void update_UpdateProducer_WhenSuccessFul() {
         var id = 1L;
+
         var producerToUpdate = this.producers.get(0);
         producerToUpdate.setName("Image");
 
         BDDMockito.when(repository.findById(id)).thenReturn(Optional.of(producerToUpdate));
-        BDDMockito.doNothing().when(repository).update(producerToUpdate);
-
+        BDDMockito.when(repository.save(producerToUpdate)).thenReturn(producerToUpdate);
         service.update(producerToUpdate);
 
         Assertions.assertThatNoException().isThrownBy(() -> service.update(producerToUpdate));
@@ -151,9 +153,9 @@ class ProducerServiceTest {
     @Order(10)
     void update_ThrowResponseStatusException_WhenNoProducerIsFound() {
         var id = 1L;
+
         var producerToUpdate = this.producers.get(0);
         producerToUpdate.setName("Kialo");
-
         BDDMockito.when(repository.findById(id)).thenReturn(Optional.empty());
 
         Assertions.assertThatException()

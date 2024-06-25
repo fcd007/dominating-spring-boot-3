@@ -36,13 +36,7 @@ public class AnimeService {
     }
 
     public void update(Anime animeToUpdate) {
-        var anime = assertAnimeExists(animeToUpdate);
-
-        animeToUpdate.setCreatedAt(anime.getCreatedAt());
-        repository.save(animeToUpdate);
-    }
-
-    private Anime assertAnimeExists(Anime animeToUpdate) {
-        return findById(animeToUpdate.getId());
+        var user = findById(animeToUpdate.getId());
+        repository.save(user);
     }
 }

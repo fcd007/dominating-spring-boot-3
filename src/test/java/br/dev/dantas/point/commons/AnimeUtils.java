@@ -10,9 +10,9 @@ import java.util.List;
 @Component
 public class AnimeUtils {
     public List<Anime> newAnimeList() {
-        var tom = Anime.builder().id(1L).name("Superman").createdAt(LocalDateTime.now()).build();
-        var pokemon = Anime.builder().id(2L).name("Pokemon").createdAt(LocalDateTime.now()).build();
-        var pink = Anime.builder().id(3L).name("Pink & Cerebro").createdAt(LocalDateTime.now()).build();
+        var tom = Anime.builder().id(1L).name("Superman").createdAt(LocalDateTime.now()).lastUpdatedOn(LocalDateTime.now()).build();
+        var pokemon = Anime.builder().id(2L).name("Pokemon").createdAt(LocalDateTime.now()).lastUpdatedOn(LocalDateTime.now()).build();
+        var pink = Anime.builder().id(3L).name("Pink & Cerebro").createdAt(LocalDateTime.now()).lastUpdatedOn(LocalDateTime.now()).build();
 
         return new ArrayList<>(List.of(tom, pokemon, pink));
     }
@@ -22,6 +22,7 @@ public class AnimeUtils {
                 .id(4L)
                 .name("Liga da Justiça")
                 .createdAt(LocalDateTime.now())
+                .lastUpdatedOn(LocalDateTime.now())
                 .build();
     }
 }
