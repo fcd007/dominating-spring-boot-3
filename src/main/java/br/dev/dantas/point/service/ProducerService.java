@@ -2,6 +2,7 @@ package br.dev.dantas.point.service;
 
 import br.dev.dantas.point.domain.entity.Producer;
 import br.dev.dantas.point.repository.ProducerRepository;
+import br.dev.dantas.point.utils.Constants;
 import exception.NotFoundException;
 import java.util.List;
 import java.util.Optional;
@@ -31,15 +32,14 @@ public class ProducerService {
   }
 
   public void delete(Long id) {
-    var producer = findById(id).orElseThrow(() -> new NotFoundException("Producer not found"));
+    var producer = findById(id).orElseThrow(() -> new NotFoundException(Constants.PRODUCER_NOT_FOUND));
     repository.delete(producer);
   }
 
   public void update(Producer producerToUpdate) {
     findById(producerToUpdate.getId())
         .ifPresentOrElse(p -> repository.save(producerToUpdate), () -> {
-          throw new NotFoundException("Producer not found to ne updated");
+          throw new NotFoundException(Constants.PRODUCER_NOT_FOUND_UPDATED);
         });
   }
-
 }

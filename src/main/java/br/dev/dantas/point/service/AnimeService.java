@@ -2,6 +2,7 @@ package br.dev.dantas.point.service;
 
 import br.dev.dantas.point.domain.entity.Anime;
 import br.dev.dantas.point.repository.AnimeRepository;
+import br.dev.dantas.point.utils.Constants;
 import exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class AnimeService {
     }
 
     public Anime findById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new NotFoundException("Anime not found"));
+        return repository.findById(id).orElseThrow(() -> new NotFoundException(Constants.ANIME_NOT_FOUND));
     }
 
     public void delete(Long id) {
