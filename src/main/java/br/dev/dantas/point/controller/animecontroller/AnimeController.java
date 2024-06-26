@@ -23,12 +23,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import static br.dev.dantas.point.controller.animecontroller.IAnimeController.*;
 
 @RestController
-@RequestMapping(path = {IAnimeController.V1_PATH_DEFAULT, IAnimeController.V1_PATH_OTHER})
+@RequestMapping(path = {V1_PATH_DEFAULT, V1_PATH_OTHER})
 @Log4j2
 @RequiredArgsConstructor
-public class AnimeController {
+public class AnimeController implements IAnimeController {
 
   private final AnimeMapper mapper;
   private final AnimeService animeService;
@@ -44,13 +45,13 @@ public class AnimeController {
     return ResponseEntity.ok(animeGetResponses);
   }
 
-  @GetMapping("/paginated")
-  public ResponseEntity<List<AnimeGetResponse>> findAll(Pageable pageable) {
+  @GetMapping(PAGINATED)
+  public ResponseEntity<Page<AnimeGetResponse>> findAll(Pageable pageable) {
     log.info("Request received to list all animes paginated");
 
     var animeGetResponses = animeService.listAnimes(pageable).map(mapper::toAnimeGetResponse);
 
-    return ResponseEntity.ok(animeGetResponses.getContent());
+    return ResponseEntity.ok(animeGetResponses);
   }
 
   @GetMapping("{id}")

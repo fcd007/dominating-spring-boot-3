@@ -31,6 +31,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.server.ResponseStatusException;
+import static br.dev.dantas.point.controller.producercontroller.IProducerController.*;
 
 @WebMvcTest(ProducerController.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -61,7 +62,7 @@ class ProducerControllerTest {
 
     BDDMockito.when(producerService.findAll(null)).thenReturn(producerUtils.newProducerList());
 
-    mockMvc.perform(MockMvcRequestBuilders.get(IProducerController.V1_PATH_DEFAULT))
+    mockMvc.perform(MockMvcRequestBuilders.get(V1_PATH_DEFAULT))
         .andDo(MockMvcResultHandlers.print())
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().json(response));
@@ -78,7 +79,7 @@ class ProducerControllerTest {
         .thenReturn(Collections.singletonList(producerUtils.newProducerList().get(0)));
 
     mockMvc.perform(
-            MockMvcRequestBuilders.get(IProducerController.V1_PATH_DEFAULT).param("name", name))
+            MockMvcRequestBuilders.get(V1_PATH_DEFAULT).param("name", name))
         .andDo(MockMvcResultHandlers.print())
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().json(response));
@@ -95,7 +96,7 @@ class ProducerControllerTest {
     BDDMockito.when(producerService.findByName(name)).thenReturn(Collections.emptyList());
 
     mockMvc.perform(
-            MockMvcRequestBuilders.get(IProducerController.V1_PATH_DEFAULT).param("name", name))
+            MockMvcRequestBuilders.get(V1_PATH_DEFAULT).param("name", name))
         .andDo(MockMvcResultHandlers.print())
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().json(response));
@@ -112,7 +113,7 @@ class ProducerControllerTest {
     BDDMockito.when(producerService.save(ArgumentMatchers.any())).thenReturn(producerToBeSaved);
 
     mockMvc.perform(MockMvcRequestBuilders
-            .post(IProducerController.V1_PATH_DEFAULT)
+            .post(V1_PATH_DEFAULT)
             .content(request)
             .contentType(MediaType.APPLICATION_JSON))
         .andDo(MockMvcResultHandlers.print())
@@ -131,7 +132,7 @@ class ProducerControllerTest {
     BDDMockito.doNothing().when(producerService).update(ArgumentMatchers.any());
 
     mockMvc.perform(MockMvcRequestBuilders
-            .put(IProducerController.V1_PATH_DEFAULT)
+            .put(V1_PATH_DEFAULT)
             .content(request)
             .contentType(MediaType.APPLICATION_JSON))
         .andDo(MockMvcResultHandlers.print())
@@ -148,7 +149,7 @@ class ProducerControllerTest {
     BDDMockito.doThrow(new ResponseStatusException(HttpStatus.NOT_FOUND)).when(producerService)
         .update(producerToUpdated);
 
-    mockMvc.perform(MockMvcRequestBuilders.put(IProducerController.V1_PATH_DEFAULT).content(request)
+    mockMvc.perform(MockMvcRequestBuilders.put(V1_PATH_DEFAULT).content(request)
             .contentType(MediaType.APPLICATION_JSON))
         .andDo(MockMvcResultHandlers.print())
         .andExpect(MockMvcResultMatchers.status().isNoContent());
@@ -160,7 +161,7 @@ class ProducerControllerTest {
   void delete_RemovesProducer_WhenSuccessFul() throws Exception {
     var id = 1L;
     mockMvc.perform(
-            MockMvcRequestBuilders.delete(IProducerController.V1_PATH_DEFAULT + "/{id}", id))
+            MockMvcRequestBuilders.delete(V1_PATH_DEFAULT + "/{id}", id))
         .andDo(MockMvcResultHandlers.print())
         .andExpect(MockMvcResultMatchers.status().isNoContent());
   }
@@ -175,7 +176,7 @@ class ProducerControllerTest {
         .delete(id);
 
     mockMvc.perform(
-            MockMvcRequestBuilders.delete(IProducerController.V1_PATH_DEFAULT + "/{id}", id))
+            MockMvcRequestBuilders.delete(V1_PATH_DEFAULT + "/{id}", id))
         .andDo(MockMvcResultHandlers.print())
         .andExpect(MockMvcResultMatchers.status().isNotFound())
         .andReturn();
@@ -191,7 +192,7 @@ class ProducerControllerTest {
 
     var mvcResult = mockMvc.perform(
             MockMvcRequestBuilders
-                .post(IProducerController.V1_PATH_DEFAULT)
+                .post(V1_PATH_DEFAULT)
                 .content(request)
                 .contentType(MediaType.APPLICATION_JSON)
         )
@@ -217,7 +218,7 @@ class ProducerControllerTest {
 
     var mvcResult = mockMvc.perform(
             MockMvcRequestBuilders
-                .put(IProducerController.V1_PATH_DEFAULT)
+                .put(V1_PATH_DEFAULT)
                 .content(request)
                 .contentType(MediaType.APPLICATION_JSON)
         )

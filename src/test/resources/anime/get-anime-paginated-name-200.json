@@ -1,0 +1,41 @@
+{
+  "content": [
+    {
+      "id": 1,
+      "name": "Superman"
+    },
+    {
+      "id": 2,
+      "name": "Pokemon"
+    },
+    {
+      "id": 3,
+      "name": "Pink & Cerebro"
+    }
+  ],
+  "pageable": {
+    "pageNumber": 0,
+    "pageSize": 3,
+    "sort": {
+      "empty": true,
+      "sorted": false,
+      "unsorted": true
+    },
+    "offset": 0,
+    "unpaged": false,
+    "paged": true
+  },
+  "last": true,
+  "totalElements": 3,
+  "totalPages": 1,
+  "first": true,
+  "size": 3,
+  "number": 0,
+  "sort": {
+    "empty": true,
+    "sorted": false,
+    "unsorted": true
+  },
+  "numberOfElements": 3,
+  "empty": false
+}

@@ -1,7 +1,11 @@
 package br.dev.dantas.point.controller.animecontroller;
 
+import static br.dev.dantas.point.controller.animecontroller.IAnimeController.PAGINATED;
+import static br.dev.dantas.point.controller.animecontroller.IAnimeController.V1_PATH_DEFAULT;
+
 import br.dev.dantas.point.commons.AnimeUtils;
 import br.dev.dantas.point.commons.FileUtils;
+import br.dev.dantas.point.domain.entity.Anime;
 import br.dev.dantas.point.domain.mappers.AnimeMapperImpl;
 import br.dev.dantas.point.service.AnimeService;
 import java.util.Collections;
@@ -23,6 +27,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -57,7 +63,27 @@ class AnimeControllerTest {
     BDDMockito.when(animeService.findAll(null)).thenReturn(animeUtils.newAnimeList());
 
     mockMvc.perform((MockMvcRequestBuilders
-            .get(IAnimeController.V1_PATH_DEFAULT)))
+            .get(V1_PATH_DEFAULT)))
+        .andDo(MockMvcResultHandlers.print())
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.content().json(response));
+  }
+
+  @Test
+  @DisplayName("findAll() returns a page list with all Animes")
+  @Order(2)
+  void findAll_ReturnsAllAnimesPaginaded_WhenSuccessful() throws Exception {
+    var response = fileUtils.readResourceFile("anime/get-anime-paginated-name-200.json");
+    var animes = animeUtils.newAnimeList();
+    var pageRequest = PageRequest.of(0, animes.size());
+    PageImpl<Anime> pageAnime = new PageImpl<>(animes, pageRequest, 1);
+
+    BDDMockito.when(animeService.listAnimes(
+        BDDMockito.any(PageRequest.class)
+    )).thenReturn(pageAnime);
+
+    mockMvc.perform((MockMvcRequestBuilders
+            .get(V1_PATH_DEFAULT + PAGINATED)))
         .andDo(MockMvcResultHandlers.print())
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().json(response));
@@ -74,7 +100,7 @@ class AnimeControllerTest {
         .thenReturn(Collections.singletonList(animeUtils.newAnimeList().get(0)));
 
     mockMvc.perform((MockMvcRequestBuilders
-            .get(IAnimeController.V1_PATH_DEFAULT))
+            .get(V1_PATH_DEFAULT))
             .param("name", name))
         .andDo(MockMvcResultHandlers.print())
         .andExpect(MockMvcResultMatchers.status().isOk())
@@ -92,7 +118,7 @@ class AnimeControllerTest {
         .findFirst().orElse(null);
     BDDMockito.when(animeService.findById(id)).thenReturn(animeFound);
 
-    mockMvc.perform(MockMvcRequestBuilders.get(IAnimeController.V1_PATH_DEFAULT + "/{id}", id))
+    mockMvc.perform(MockMvcRequestBuilders.get(V1_PATH_DEFAULT + "/{id}", id))
         .andDo(MockMvcResultHandlers.print())
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().json(response));
@@ -108,7 +134,7 @@ class AnimeControllerTest {
     BDDMockito.when(animeService.findById(ArgumentMatchers.any()))
         .thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-    mockMvc.perform(MockMvcRequestBuilders.get(IAnimeController.V1_PATH_DEFAULT + "/{id}", id))
+    mockMvc.perform(MockMvcRequestBuilders.get(V1_PATH_DEFAULT + "/{id}", id))
         .andDo(MockMvcResultHandlers.print())
         .andExpect(MockMvcResultMatchers.status().isNotFound());
   }
@@ -123,7 +149,7 @@ class AnimeControllerTest {
     BDDMockito.when(animeService.findByName(animeNotFound)).thenReturn(Collections.emptyList());
 
     mockMvc.perform((MockMvcRequestBuilders
-            .get(IAnimeController.V1_PATH_DEFAULT)).param("name", animeNotFound))
+            .get(V1_PATH_DEFAULT)).param("name", animeNotFound))
         .andDo(MockMvcResultHandlers.print())
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().json(response));
@@ -139,7 +165,7 @@ class AnimeControllerTest {
     var userToBeSaved = animeUtils.newAnimeToSave();
     BDDMockito.when(animeService.save(ArgumentMatchers.any())).thenReturn(userToBeSaved);
 
-    mockMvc.perform(MockMvcRequestBuilders.post(IAnimeController.V1_PATH_DEFAULT).content(request)
+    mockMvc.perform(MockMvcRequestBuilders.post(V1_PATH_DEFAULT).content(request)
             .contentType(MediaType.APPLICATION_JSON)).andDo(MockMvcResultHandlers.print())
         .andExpect(
             MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -156,7 +182,7 @@ class AnimeControllerTest {
     BDDMockito.doNothing().when(animeService).update(ArgumentMatchers.any());
 
     mockMvc.perform(MockMvcRequestBuilders
-            .put(IAnimeController.V1_PATH_DEFAULT)
+            .put(V1_PATH_DEFAULT)
             .content(request).contentType(MediaType.APPLICATION_JSON))
         .andDo(MockMvcResultHandlers.print())
         .andExpect(MockMvcResultMatchers.status().isNoContent());
@@ -173,7 +199,7 @@ class AnimeControllerTest {
     BDDMockito.doThrow(new ResponseStatusException(HttpStatus.NOT_FOUND)).when(animeService)
         .update(animeToUpdated);
 
-    mockMvc.perform(MockMvcRequestBuilders.put(IAnimeController.V1_PATH_DEFAULT).content(request)
+    mockMvc.perform(MockMvcRequestBuilders.put(V1_PATH_DEFAULT).content(request)
             .contentType(MediaType.APPLICATION_JSON))
         .andDo(MockMvcResultHandlers.print())
         .andExpect(MockMvcResultMatchers.status().isNoContent());
@@ -184,7 +210,7 @@ class AnimeControllerTest {
   @Order(9)
   void delete_RemovesAnime_WhenSuccessFul() throws Exception {
     var id = 1L;
-    mockMvc.perform(MockMvcRequestBuilders.delete(IAnimeController.V1_PATH_DEFAULT + "/{id}", id))
+    mockMvc.perform(MockMvcRequestBuilders.delete(V1_PATH_DEFAULT + "/{id}", id))
         .andDo(MockMvcResultHandlers.print())
         .andExpect(MockMvcResultMatchers.status().isNoContent());
   }
@@ -197,7 +223,7 @@ class AnimeControllerTest {
     BDDMockito.doThrow(new ResponseStatusException(HttpStatus.NOT_FOUND)).when(animeService)
         .delete(id);
 
-    mockMvc.perform(MockMvcRequestBuilders.delete(IAnimeController.V1_PATH_DEFAULT + "/{id}", id))
+    mockMvc.perform(MockMvcRequestBuilders.delete(V1_PATH_DEFAULT + "/{id}", id))
         .andDo(MockMvcResultHandlers.print())
         .andExpect(MockMvcResultMatchers.status().isNotFound());
   }
@@ -212,7 +238,7 @@ class AnimeControllerTest {
 
     var mvcResult = mockMvc.perform(
             MockMvcRequestBuilders
-                .post(IAnimeController.V1_PATH_DEFAULT)
+                .post(V1_PATH_DEFAULT)
                 .content(request)
                 .contentType(MediaType.APPLICATION_JSON)
         )
@@ -237,7 +263,7 @@ class AnimeControllerTest {
 
     var mvcResult = mockMvc.perform(
             MockMvcRequestBuilders
-                .put(IAnimeController.V1_PATH_DEFAULT)
+                .put(V1_PATH_DEFAULT)
                 .content(request)
                 .contentType(MediaType.APPLICATION_JSON)
         )

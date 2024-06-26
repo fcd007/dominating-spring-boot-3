@@ -9,11 +9,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import static br.dev.dantas.point.controller.producercontroller.IProducerController.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(path = {IProducerController.V1_PATH_DEFAULT, IProducerController.V1_PATH_OTHER})
+@RequestMapping(path = {V1_PATH_DEFAULT, V1_PATH_OTHER})
 @Log4j2
 @RequiredArgsConstructor
 public class ProducerController {
