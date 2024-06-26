@@ -5,6 +5,8 @@ import br.dev.dantas.point.repository.AnimeRepository;
 import br.dev.dantas.point.utils.Constants;
 import exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +19,10 @@ public class AnimeService {
 
     public List<Anime> findAll(String name) {
         return findByName(name);
+    }
+
+    public Page<Anime> listAnimes(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     public List<Anime> findByName(String name) {
