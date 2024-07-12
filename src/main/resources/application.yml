@@ -2,6 +2,7 @@ server:
   port: 8089
   error:
     include-stacktrace: NEVER
+    include-binding-errors: NEVER
 
 spring:
   application:
