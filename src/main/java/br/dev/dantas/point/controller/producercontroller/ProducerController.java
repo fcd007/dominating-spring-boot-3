@@ -9,20 +9,20 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import static br.dev.dantas.point.controller.producercontroller.IProducerController.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(path = {V1_PATH_DEFAULT, V1_PATH_OTHER})
+@RequestMapping(path = {IProducerController.V1_PATH_DEFAULT})
 @Log4j2
 @RequiredArgsConstructor
-public class ProducerController {
+public class ProducerController implements IProducerController {
 
     private final ProducerService producerService;
     private final ProducerMapper mapper;
 
     @GetMapping
+    @Override
     public ResponseEntity<List<ProducerGetResponse>> list(@RequestParam(required = false) String name) {
         log.info("Request received to list all anime's, param name '{}' ", name);
 
@@ -33,6 +33,7 @@ public class ProducerController {
     }
 
     @GetMapping("{id}")
+    @Override
     public ResponseEntity<ProducerGetResponse> findById(@PathVariable @Valid Long id) {
         log.info("Request received find producer by id '{}' ", id);
 
@@ -43,6 +44,7 @@ public class ProducerController {
     }
 
     @PostMapping
+    @Override
     public ResponseEntity<ProducerPostResponse> save(@RequestBody @Valid ProducerPostRequest request) {
         log.info("Request create produce post method '{}' ", request);
 
@@ -54,6 +56,7 @@ public class ProducerController {
     }
 
     @DeleteMapping("{id}")
+    @Override
     public ResponseEntity<Void> deleteById(@PathVariable @Valid Long id) {
         log.info("Request received to delete the producer by id'{}' ", id);
 
@@ -63,6 +66,7 @@ public class ProducerController {
     }
 
     @PutMapping
+    @Override
     public ResponseEntity<Void> update(@RequestBody @Valid ProducerPutRequest request) {
         log.info("Request received to update the producer '{}' ", request);
 

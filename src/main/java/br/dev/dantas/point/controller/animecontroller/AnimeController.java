@@ -1,5 +1,7 @@
 package br.dev.dantas.point.controller.animecontroller;
 
+import static br.dev.dantas.point.controller.animecontroller.IAnimeController.V1_PATH_DEFAULT;
+
 import br.dev.dantas.point.controller.animecontroller.request.AnimePostRequest;
 import br.dev.dantas.point.controller.animecontroller.request.AnimePutRequest;
 import br.dev.dantas.point.controller.animecontroller.response.AnimeGetResponse;
@@ -23,10 +25,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import static br.dev.dantas.point.controller.animecontroller.IAnimeController.*;
 
 @RestController
-@RequestMapping(path = {V1_PATH_DEFAULT, V1_PATH_OTHER})
+@RequestMapping(path = {V1_PATH_DEFAULT})
 @Log4j2
 @RequiredArgsConstructor
 public class AnimeController implements IAnimeController {
@@ -35,8 +36,8 @@ public class AnimeController implements IAnimeController {
   private final AnimeService animeService;
 
   @GetMapping
-  public ResponseEntity<List<AnimeGetResponse>> findAll(
-      @RequestParam(required = false) String name) {
+  @Override
+  public ResponseEntity<List<AnimeGetResponse>> findAll(@RequestParam(required = false) String name) {
     log.info("Request received to list all animes, param name '{}'", name);
 
     var anime = animeService.findAll(name);
@@ -46,6 +47,7 @@ public class AnimeController implements IAnimeController {
   }
 
   @GetMapping(PAGINATED)
+  @Override
   public ResponseEntity<Page<AnimeGetResponse>> findAll(Pageable pageable) {
     log.info("Request received to list all animes paginated");
 
@@ -55,6 +57,7 @@ public class AnimeController implements IAnimeController {
   }
 
   @GetMapping("{id}")
+  @Override
   public ResponseEntity<AnimeGetResponse> findById(@PathVariable @Valid Long id) {
     log.info("Request received find anime by id '{}'", id);
 
@@ -65,6 +68,7 @@ public class AnimeController implements IAnimeController {
   }
 
   @PostMapping
+  @Override
   public ResponseEntity<AnimePostResponse> save(@RequestBody @Valid AnimePostRequest request) {
     log.info("Request create anime post method '{}'", request);
 
@@ -76,6 +80,7 @@ public class AnimeController implements IAnimeController {
   }
 
   @DeleteMapping("{id}")
+  @Override
   public ResponseEntity<Void> delete(@PathVariable @Valid Long id) {
     log.info("Request received to delete the anime by id'{}'", id);
 
@@ -84,6 +89,7 @@ public class AnimeController implements IAnimeController {
   }
 
   @PutMapping
+  @Override
   public ResponseEntity<Void> update(@RequestBody @Valid AnimePutRequest request) {
     log.info("Request received to update the anime '{}'", request);
 
