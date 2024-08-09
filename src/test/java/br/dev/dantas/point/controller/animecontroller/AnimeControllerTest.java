@@ -5,8 +5,10 @@ import static br.dev.dantas.point.controller.animecontroller.IAnimeController.V1
 
 import br.dev.dantas.point.commons.AnimeUtils;
 import br.dev.dantas.point.commons.FileUtils;
+import br.dev.dantas.point.config.SecurityConfig;
 import br.dev.dantas.point.domain.entity.Anime;
 import br.dev.dantas.point.domain.mappers.AnimeMapperImpl;
+import br.dev.dantas.point.domain.mappers.PasswordEncodedMapper;
 import br.dev.dantas.point.service.AnimeService;
 import java.util.Collections;
 import java.util.List;
@@ -31,6 +33,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -39,7 +42,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 @WebMvcTest(AnimeController.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@Import({AnimeMapperImpl.class, FileUtils.class, AnimeUtils.class})
+@Import({AnimeMapperImpl.class, FileUtils.class, AnimeUtils.class, SecurityConfig.class})
+@WithMockUser(roles = "ADMIN")
 class AnimeControllerTest {
 
   @Autowired

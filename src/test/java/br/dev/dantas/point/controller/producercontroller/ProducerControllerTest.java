@@ -2,6 +2,7 @@ package br.dev.dantas.point.controller.producercontroller;
 
 import br.dev.dantas.point.commons.FileUtils;
 import br.dev.dantas.point.commons.ProducerUtils;
+import br.dev.dantas.point.config.SecurityConfig;
 import br.dev.dantas.point.domain.mappers.ProducerMapperImpl;
 import br.dev.dantas.point.service.ProducerService;
 import java.util.Collections;
@@ -26,6 +27,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -35,7 +37,8 @@ import static br.dev.dantas.point.controller.producercontroller.IProducerControl
 
 @WebMvcTest(ProducerController.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@Import({ProducerMapperImpl.class, FileUtils.class, ProducerUtils.class})
+@Import({ProducerMapperImpl.class, FileUtils.class, ProducerUtils.class, SecurityConfig.class})
+@WithMockUser(roles = "ADMIN")
 class ProducerControllerTest {
 
   @Autowired
@@ -52,7 +55,6 @@ class ProducerControllerTest {
 
   @Autowired
   private ProducerUtils producerUtils;
-
 
   @Test
   @DisplayName("findAll() returns a list with all producers")

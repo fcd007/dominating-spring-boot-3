@@ -8,6 +8,7 @@ import br.dev.dantas.point.controller.animecontroller.response.AnimeGetResponse;
 import br.dev.dantas.point.controller.animecontroller.response.AnimePostResponse;
 import br.dev.dantas.point.domain.mappers.AnimeMapper;
 import br.dev.dantas.point.service.AnimeService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -30,10 +31,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = {V1_PATH_DEFAULT})
 @Log4j2
 @RequiredArgsConstructor
+@SecurityRequirement(name = "basicAuth")
 public class AnimeController implements IAnimeController {
 
-  private final AnimeMapper mapper;
   private final AnimeService animeService;
+  private final AnimeMapper mapper;
 
   @GetMapping
   @Override

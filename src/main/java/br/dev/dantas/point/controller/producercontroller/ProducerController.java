@@ -1,21 +1,26 @@
 package br.dev.dantas.point.controller.producercontroller;
 
+import static br.dev.dantas.point.controller.producercontroller.IProducerController.V1_PATH_DEFAULT;
+
 import br.dev.dantas.point.domain.mappers.ProducerMapper;
 import br.dev.dantas.point.controller.producercontroller.request.*;
 import br.dev.dantas.point.controller.producercontroller.response.*;
 import br.dev.dantas.point.service.ProducerService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(path = {IProducerController.V1_PATH_DEFAULT})
+@RequestMapping(path = {V1_PATH_DEFAULT})
 @Log4j2
 @RequiredArgsConstructor
+@SecurityRequirement(name = "basicAuth")
 public class ProducerController implements IProducerController {
 
     private final ProducerService producerService;
@@ -67,6 +72,7 @@ public class ProducerController implements IProducerController {
 
     @PutMapping
     @Override
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Void> update(@RequestBody @Valid ProducerPutRequest request) {
         log.info("Request received to update the producer '{}' ", request);
 
