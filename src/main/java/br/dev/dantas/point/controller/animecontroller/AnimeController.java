@@ -39,7 +39,7 @@ public class AnimeController implements IAnimeController {
 
   @GetMapping
   @Override
-  public ResponseEntity<List<AnimeGetResponse>> findAll(@RequestParam(required = false) String name) {
+  public ResponseEntity<List<AnimeGetResponse>> findAllAnimes(@RequestParam(required = false) String name) {
     log.info("Request received to list all animes, param name '{}'", name);
 
     var anime = animeService.findAll(name);
@@ -50,7 +50,7 @@ public class AnimeController implements IAnimeController {
 
   @GetMapping(PAGINATED)
   @Override
-  public ResponseEntity<Page<AnimeGetResponse>> findAll(Pageable pageable) {
+  public ResponseEntity<Page<AnimeGetResponse>> findAllAnimesPageable(Pageable pageable) {
     log.info("Request received to list all animes paginated");
 
     var animeGetResponses = animeService.listAnimes(pageable).map(mapper::toAnimeGetResponse);
@@ -60,7 +60,7 @@ public class AnimeController implements IAnimeController {
 
   @GetMapping("{id}")
   @Override
-  public ResponseEntity<AnimeGetResponse> findById(@PathVariable @Valid Long id) {
+  public ResponseEntity<AnimeGetResponse> findAnimeById(@PathVariable @Valid Long id) {
     log.info("Request received find anime by id '{}'", id);
 
     var anime = animeService.findById(id);
@@ -71,7 +71,7 @@ public class AnimeController implements IAnimeController {
 
   @PostMapping
   @Override
-  public ResponseEntity<AnimePostResponse> save(@RequestBody @Valid AnimePostRequest request) {
+  public ResponseEntity<AnimePostResponse> saveAnime(@RequestBody @Valid AnimePostRequest request) {
     log.info("Request create anime post method '{}'", request);
 
     var anime = mapper.toAnime(request);
@@ -83,7 +83,7 @@ public class AnimeController implements IAnimeController {
 
   @DeleteMapping("{id}")
   @Override
-  public ResponseEntity<Void> delete(@PathVariable @Valid Long id) {
+  public ResponseEntity<Void> deleteAnime(@PathVariable @Valid Long id) {
     log.info("Request received to delete the anime by id'{}'", id);
 
     animeService.delete(id);
@@ -92,7 +92,7 @@ public class AnimeController implements IAnimeController {
 
   @PutMapping
   @Override
-  public ResponseEntity<Void> update(@RequestBody @Valid AnimePutRequest request) {
+  public ResponseEntity<Void> updateAnime(@RequestBody @Valid AnimePutRequest request) {
     log.info("Request received to update the anime '{}'", request);
 
     var animeToUpdate = mapper.toAnime(request);

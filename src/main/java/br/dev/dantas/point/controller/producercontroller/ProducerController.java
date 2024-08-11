@@ -28,7 +28,7 @@ public class ProducerController implements IProducerController {
 
     @GetMapping
     @Override
-    public ResponseEntity<List<ProducerGetResponse>> list(@RequestParam(required = false) String name) {
+    public ResponseEntity<List<ProducerGetResponse>> listAllProducers(@RequestParam(required = false) String name) {
         log.info("Request received to list all anime's, param name '{}' ", name);
 
         var producers = producerService.findAll(name);
@@ -39,7 +39,7 @@ public class ProducerController implements IProducerController {
 
     @GetMapping("{id}")
     @Override
-    public ResponseEntity<ProducerGetResponse> findById(@PathVariable @Valid Long id) {
+    public ResponseEntity<ProducerGetResponse> findProducerById(@PathVariable @Valid Long id) {
         log.info("Request received find producer by id '{}' ", id);
 
         var producer = producerService.findById(id);
@@ -50,7 +50,7 @@ public class ProducerController implements IProducerController {
 
     @PostMapping
     @Override
-    public ResponseEntity<ProducerPostResponse> save(@RequestBody @Valid ProducerPostRequest request) {
+    public ResponseEntity<ProducerPostResponse> saveProducer(@RequestBody @Valid ProducerPostRequest request) {
         log.info("Request create produce post method '{}' ", request);
 
         var producer = mapper.toProducer(request);
@@ -62,7 +62,7 @@ public class ProducerController implements IProducerController {
 
     @DeleteMapping("{id}")
     @Override
-    public ResponseEntity<Void> deleteById(@PathVariable @Valid Long id) {
+    public ResponseEntity<Void> deleteProducerById(@PathVariable @Valid Long id) {
         log.info("Request received to delete the producer by id'{}' ", id);
 
         producerService.delete(id);
@@ -73,7 +73,7 @@ public class ProducerController implements IProducerController {
     @PutMapping
     @Override
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<Void> update(@RequestBody @Valid ProducerPutRequest request) {
+    public ResponseEntity<Void> updateProducer(@RequestBody @Valid ProducerPutRequest request) {
         log.info("Request received to update the producer '{}' ", request);
 
         var producerToUpdate = mapper.toProducer(request);

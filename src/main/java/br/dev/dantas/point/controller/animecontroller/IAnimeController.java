@@ -5,7 +5,6 @@ import br.dev.dantas.point.controller.animecontroller.request.AnimePutRequest;
 import br.dev.dantas.point.controller.animecontroller.response.AnimeGetResponse;
 import br.dev.dantas.point.controller.animecontroller.response.AnimePostResponse;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,20 +19,20 @@ public interface IAnimeController {
   static final String PAGINATED = "/paginated";
 
   @Operation(summary = "List all animes")
-  ResponseEntity<List<AnimeGetResponse>> findAll(String name);
+  ResponseEntity<List<AnimeGetResponse>> findAllAnimes(String name);
 
   @Operation(summary = "List Animes Paginated")
-  ResponseEntity<Page<AnimeGetResponse>> findAll(Pageable pageable);
+  ResponseEntity<Page<AnimeGetResponse>> findAllAnimesPageable(Pageable pageable);
 
   @Operation(summary = "Find Anime by Idd")
-  ResponseEntity<AnimeGetResponse> findById(Long id);
+  ResponseEntity<AnimeGetResponse> findAnimeById(Long id);
 
   @Operation(summary = "Save Anime")
-  ResponseEntity<AnimePostResponse> save(AnimePostRequest request);
+  ResponseEntity<AnimePostResponse> saveAnime(AnimePostRequest request);
 
   @Operation(summary = "Delete Anime")
-  ResponseEntity<Void> delete(Long id);
+  ResponseEntity<Void> deleteAnime(Long id);
 
   @Operation(summary = "Update Anime")
-  ResponseEntity<Void> update(AnimePutRequest request);
+  ResponseEntity<Void> updateAnime(AnimePutRequest request);
 }

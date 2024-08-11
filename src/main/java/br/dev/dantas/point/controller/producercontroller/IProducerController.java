@@ -14,17 +14,17 @@ public interface IProducerController {
   public static final String V1_PATH_OTHER = "/api/v1/producers/";
 
   @Operation(summary = "List producers")
-  ResponseEntity<List<ProducerGetResponse>> list(String name);
+  ResponseEntity<List<ProducerGetResponse>> listAllProducers(String name);
 
   @Operation(summary = "Find producer")
-  ResponseEntity<ProducerGetResponse> findById(Long id);
+  ResponseEntity<ProducerGetResponse> findProducerById(Long id);
 
   @Operation(summary = "Save producer")
-  ResponseEntity<ProducerPostResponse> save(ProducerPostRequest request);
+  ResponseEntity<ProducerPostResponse> saveProducer(ProducerPostRequest request);
 
   @Operation(summary = "Delete producer")
-  ResponseEntity<Void> deleteById(Long id);
+  ResponseEntity<Void> deleteProducerById(Long id);
 
   @Operation(summary = "Update producer")
-  ResponseEntity<Void> update(ProducerPutRequest request);
+  ResponseEntity<Void> updateProducer(ProducerPutRequest request);
 }
