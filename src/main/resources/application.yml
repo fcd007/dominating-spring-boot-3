@@ -1,17 +1,28 @@
 server:
-  port: 8089
+  port: 8080
   error:
     include-stacktrace: NEVER
     include-binding-errors: NEVER
 
+logging:
+  level:
+    org.springframework.security: DEBUG
 spring:
   application:
     name: anime-service
   datasource:
     url: jdbc:mysql://localhost:3306/anime_service?userTimezone=true&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: root
-    password: example
+    password: admin
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: update
+
+management:
+  server:
+    port: 8989
+  endpoints:
+    web:
+      exposure:
+        include: "*"
