@@ -1,8 +1,11 @@
 package br.dev.dantas.point.controller.producercontroller;
 
+import static br.dev.dantas.point.controller.producercontroller.IProducerController.V1_PATH_DEFAULT;
+
 import br.dev.dantas.point.commons.FileUtils;
 import br.dev.dantas.point.commons.ProducerUtils;
 import br.dev.dantas.point.config.SecurityConfig;
+import br.dev.dantas.point.domain.mappers.PasswordEncodedMapper;
 import br.dev.dantas.point.domain.mappers.ProducerMapperImpl;
 import br.dev.dantas.point.service.ProducerService;
 import java.util.Collections;
@@ -33,7 +36,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.server.ResponseStatusException;
-import static br.dev.dantas.point.controller.producercontroller.IProducerController.*;
 
 @WebMvcTest(ProducerController.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -55,6 +57,9 @@ class ProducerControllerTest {
 
   @Autowired
   private ProducerUtils producerUtils;
+
+  @MockBean
+  private PasswordEncodedMapper passwordEncodedMapper;
 
   @Test
   @DisplayName("findAll() returns a list with all producers")

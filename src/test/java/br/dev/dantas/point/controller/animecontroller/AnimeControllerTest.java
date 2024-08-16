@@ -43,7 +43,7 @@ import org.springframework.web.server.ResponseStatusException;
 @WebMvcTest(AnimeController.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Import({AnimeMapperImpl.class, FileUtils.class, AnimeUtils.class, SecurityConfig.class})
-@WithMockUser(roles = "ADMIN")
+@WithMockUser(roles = "USER")
 class AnimeControllerTest {
 
   @Autowired
@@ -57,6 +57,9 @@ class AnimeControllerTest {
 
   @Autowired
   private AnimeUtils animeUtils;
+
+  @MockBean
+  private PasswordEncodedMapper passwordEncodedMapper;
 
   @Test
   @DisplayName("findAll() returns a list with all Animes")

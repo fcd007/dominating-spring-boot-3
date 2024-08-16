@@ -6,12 +6,12 @@
   <parent>
     <groupId>br.dev.dantas</groupId>
     <artifactId>parent-project</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
   <artifactId>anime-service</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.2-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>anime-service</name>
