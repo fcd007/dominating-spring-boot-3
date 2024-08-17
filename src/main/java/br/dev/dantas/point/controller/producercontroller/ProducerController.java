@@ -2,19 +2,29 @@ package br.dev.dantas.point.controller.producercontroller;
 
 import static br.dev.dantas.point.controller.producercontroller.IProducerController.V1_PATH_DEFAULT;
 
+import br.dev.dantas.point.controller.producercontroller.request.ProducerPostRequest;
+import br.dev.dantas.point.controller.producercontroller.request.ProducerPutRequest;
+import br.dev.dantas.point.controller.producercontroller.response.ProducerGetResponse;
+import br.dev.dantas.point.controller.producercontroller.response.ProducerPostResponse;
 import br.dev.dantas.point.domain.mappers.ProducerMapper;
-import br.dev.dantas.point.controller.producercontroller.request.*;
-import br.dev.dantas.point.controller.producercontroller.response.*;
 import br.dev.dantas.point.service.ProducerService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = {V1_PATH_DEFAULT})

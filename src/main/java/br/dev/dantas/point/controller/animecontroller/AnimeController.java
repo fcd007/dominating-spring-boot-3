@@ -1,7 +1,6 @@
 package br.dev.dantas.point.controller.animecontroller;
 
 import static br.dev.dantas.point.controller.animecontroller.IAnimeController.V1_PATH_DEFAULT;
-import static br.dev.dantas.point.controller.animecontroller.IAnimeController.V1_PATH_OTHER;
 
 import br.dev.dantas.point.controller.animecontroller.request.AnimePostRequest;
 import br.dev.dantas.point.controller.animecontroller.request.AnimePutRequest;
@@ -29,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = {V1_PATH_DEFAULT, V1_PATH_OTHER})
+@RequestMapping(path = {V1_PATH_DEFAULT})
 @Log4j2
 @RequiredArgsConstructor
 @SecurityRequirement(name = "basicAuth")
