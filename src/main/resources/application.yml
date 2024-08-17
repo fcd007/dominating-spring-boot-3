@@ -21,7 +21,7 @@ spring:
 
 management:
   server:
-    port: 9191
+    port: 9292
   endpoints:
     web:
       exposure:
